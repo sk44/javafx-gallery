@@ -1,0 +1,31 @@
+.mainFxmlClass {
+
+}
+
+.thumbnail {
+	-fx-background-color: #ffffff;
+	-fx-border-color: #99ccff;
+	-fx-border-width: 1px;
+	-fx-border-radius: 4px;
+}
+
+.thumbnail:hover, .thumbnail:focused {
+	-fx-background-color: #99ccff;
+}
+
+/* きいてない */
+.filenameTooltip {
+	-fx-background-color: #ff6666;
+	-fx-background-radius: 0 0 0 0;
+	-fx-border-radius: 4px;
+}
+
+.imageTitle {
+	-fx-text-fill: #ffffff;
+	/*-fx-font-weight: bold;*/
+}
+
+.imageBackground {
+	-fx-background-color: rgba(0,0,0,0.5);
+	/*-fx-background-radius: 6px;*/
+}
