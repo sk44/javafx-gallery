@@ -29,3 +29,9 @@
 	-fx-background-color: rgba(0,0,0,0.5);
 	/*-fx-background-radius: 6px;*/
 }
+
+.navigation {
+	-fx-background-color: #666666;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 20px;
+}

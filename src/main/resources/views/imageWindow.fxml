@@ -9,35 +9,41 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass, imageBackground" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sk44.jfxgallery.ImageWindowController" fx:id="rootPane">
-	<bottom>
-		<HBox alignment="CENTER" prefHeight="31.0" prefWidth="601.0" styleClass="commandArea">
-			<children>
-				<Button fx:id="buttonPrevious" mnemonicParsing="false" onAction="#handlePreviousAction" text="&lt;&lt;">
-					<HBox.margin>
-						<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
-					</HBox.margin>
-				</Button>
-				<Button fx:id="buttonNext" mnemonicParsing="false" onAction="#handleNextAction" text="&gt;&gt;" HBox.margin="$x1" />
-			</children>
-		</HBox>
-	</bottom>
-	<center>
-		<!--
+<BorderPane fx:id="rootPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass, imageBackground" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sk44.jfxgallery.ImageWindowController">
+  <bottom>
+    <HBox alignment="CENTER" prefHeight="31.0" prefWidth="601.0" styleClass="commandArea">
+      <children>
+        <Label fx:id="imageNameLabel" contentDisplay="CENTER" styleClass="imageTitle" text="aaaa" />
+      </children>
+    </HBox>
+  </bottom>
+  <center>
+    <!--
 		<ImageView fx:id="imageView" fitHeight="386.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="false" BorderPane.alignment="CENTER">
 			<BorderPane.margin>
 				<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
 			</BorderPane.margin>
 		</ImageView>
 		-->
-	</center>
-	<padding>
-		<Insets bottom="15.0" left="15.0" right="15.0" top="10.0" />
-	</padding>
-	<stylesheets>
-		<URL value="@style.css" />
-	</stylesheets>
-	<top>
-		<Label fx:id="imageNameLabel" contentDisplay="CENTER" styleClass="imageTitle" text="aaaa" BorderPane.alignment="CENTER" />
-	</top>
+  </center>
+  <left>
+    <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+      <children>
+        <Button fx:id="buttonPrevious" mnemonicParsing="false" onAction="#handlePreviousAction" prefHeight="60.0" styleClass="navigation" text="〈" textAlignment="LEFT" />
+      </children>
+    </VBox>
+  </left>
+  <padding>
+    <Insets bottom="15.0" left="15.0" right="15.0" top="10.0" />
+  </padding>
+  <right>
+    <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
+      <children>
+        <Button fx:id="buttonNext" mnemonicParsing="false" onAction="#handleNextAction" prefHeight="60.0" styleClass="navigation" text="〉" textAlignment="RIGHT" />
+      </children>
+    </VBox>
+  </right>
+  <stylesheets>
+    <URL value="@style.css" />
+  </stylesheets>
 </BorderPane>
