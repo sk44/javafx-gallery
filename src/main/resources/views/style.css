@@ -2,6 +2,9 @@
 
 }
 
+.goButton {
+}
+
 .thumbnail {
 	-fx-background-color: #ffffff;
 	-fx-border-color: #99ccff;
@@ -22,16 +25,21 @@
 
 .imageTitle {
 	-fx-text-fill: #ffffff;
-	/*-fx-font-weight: bold;*/
+	-fx-background-color: #666666;
+	-fx-background-radius: 15px;
+	-fx-padding: 5 10 5 10;
 }
 
 .imageBackground {
 	-fx-background-color: rgba(0,0,0,0.5);
-	/*-fx-background-radius: 6px;*/
 }
 
 .navigation {
 	-fx-background-color: #666666;
 	-fx-text-fill: #ffffff;
 	-fx-font-size: 20px;
+}
+
+.navigation:hover {
+	-fx-background-color: #999999;
 }

@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sk44.jfxgallery.MainWindowController">
+<BorderPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sk44.jfxgallery.MainWindowController">
   <center>
     <AnchorPane fx:id="mainPane">
       <children>
@@ -19,7 +19,7 @@
                 <ListView fx:id="directoryView" onKeyPressed="#handleKeyPressedOnList" onMouseClicked="#handleDirectoriesMouseClicked" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
               </children>
             </AnchorPane>
-            <AnchorPane minHeight="0.0" minWidth="0.0" onKeyPressed="#handleKeyPressedOnThumbnails" prefHeight="160.0" prefWidth="100.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
               <children>
                 <ScrollPane fx:id="flowScrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <content>
@@ -41,14 +41,14 @@
     <URL value="@style.css" />
   </stylesheets>
   <top>
-    <HBox prefHeight="30.0" prefWidth="800.0">
+    <HBox alignment="CENTER_LEFT" minHeight="32.0" prefHeight="32.0" prefWidth="800.0">
       <children>
         <TextField fx:id="currentPathTextField" onAction="#handleMoveToAction" prefHeight="20.0" prefWidth="560.0">
           <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
           </HBox.margin>
         </TextField>
-        <Button mnemonicParsing="false" onAction="#handleMoveToAction" text="Go" HBox.margin="$x1" />
+        <Button mnemonicParsing="false" onAction="#handleMoveToAction" styleClass="goButton" text="GO" HBox.margin="$x1" />
       </children>
       <BorderPane.margin>
         <Insets />

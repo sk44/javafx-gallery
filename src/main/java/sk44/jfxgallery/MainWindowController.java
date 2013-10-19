@@ -47,7 +47,7 @@ import javafx.util.Callback;
  */
 public class MainWindowController implements Initializable {
 
-	private ObservableList<PathModel> directories = FXCollections.observableArrayList();
+	private final ObservableList<PathModel> directories = FXCollections.observableArrayList();
 	private Path currentPath;
 	private LoadImageTask loadImageTask;
 	private ImageWindowController currentImageWindowController;
@@ -70,27 +70,14 @@ public class MainWindowController implements Initializable {
 	}
 
 	@FXML
-	protected void handleKeyPressedOnThumbnails(KeyEvent event) {
-		switch (event.getCode()) {
-			case J:
-				showNextImage();
-				break;
-			case K:
-				showPreviouseImage();
-				break;
-			case ESCAPE:
-				closeImage();
-				break;
-			default:
-		}
-	}
-
-	@FXML
 	protected void handleMoveToAction(ActionEvent event) {
 		Path moveTo = new File(currentPathTextField.getText()).toPath();
 		if (Files.exists(moveTo) == false) {
 			System.err.println("moveTo " + moveTo.toString() + " does not exist.");
 			return;
+		}
+		if (currentImageWindowController != null) {
+			currentImageWindowController.close();
 		}
 		moveTo(moveTo);
 	}
@@ -241,21 +228,21 @@ public class MainWindowController implements Initializable {
 								public void run() {
 									openImage(
 										new ImageWindowArgs(
-										entry.toAbsolutePath(),
-										current,
-										new ImageWindowArgs.IndexToPathFunction() {
-										@Override
-										public Path pathOfIndex(int index) {
-											// TODO いろいろつらい
-											List<Node> labels = thumbnails.getChildren();
-											if (index < 0 || labels.size() - 1 < index) {
-												return null;
-											}
-											Button l = (Button) labels.get(index);
-											return new File(currentPath.toFile(),
-												l.getText()).toPath();
-										}
-									}));
+											entry.toAbsolutePath(),
+											current,
+											new ImageWindowArgs.IndexToPathFunction() {
+												@Override
+												public Path pathOfIndex(int index) {
+													// TODO いろいろつらい
+													List<Node> labels = thumbnails.getChildren();
+													if (index < 0 || labels.size() - 1 < index) {
+														return null;
+													}
+													Button l = (Button) labels.get(index);
+													return new File(currentPath.toFile(),
+														l.getText()).toPath();
+												}
+											}));
 								}
 							});
 						}
@@ -263,17 +250,17 @@ public class MainWindowController implements Initializable {
 
 					Platform.runLater(
 						new Runnable() {
-						@Override
-						public void run() {
-							// new Tooltip はメインスレッドで動かす必要があるっぽい
-							// http://stackoverflow.com/questions/13864182/create-new-tooltip-on-not-javafx-application-thread
-							final Tooltip tooltip = new Tooltip(fileName);
-							tooltip.getStyleClass().add("filenameTooltip");
-							button.setTooltip(tooltip);
-							button.setGraphic(imageView);
-							thumbnails.getChildren().add(button);
-						}
-					});
+							@Override
+							public void run() {
+								// new Tooltip はメインスレッドで動かす必要があるっぽい
+								// http://stackoverflow.com/questions/13864182/create-new-tooltip-on-not-javafx-application-thread
+								final Tooltip tooltip = new Tooltip(fileName);
+								tooltip.getStyleClass().add("filenameTooltip");
+								button.setTooltip(tooltip);
+								button.setGraphic(imageView);
+								thumbnails.getChildren().add(button);
+							}
+						});
 					index++;
 				}
 			} catch (IOException ex) {
@@ -285,10 +272,6 @@ public class MainWindowController implements Initializable {
 	}
 
 	private void openImage(ImageWindowArgs args) {
-		// 表示中にキーボード操作で重複実行ができる
-		if (isImageWindowActive()) {
-			return;
-		}
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass()
 				.getResource("/views/imageWindow.fxml"));
@@ -305,29 +288,4 @@ public class MainWindowController implements Initializable {
 		}
 	}
 
-	private void showNextImage() {
-		if (isImageWindowActive() == false) {
-			return;
-		}
-		currentImageWindowController.showNext();
-	}
-
-	private void showPreviouseImage() {
-		if (isImageWindowActive() == false) {
-			return;
-		}
-		currentImageWindowController.showPrevious();
-	}
-
-	private void closeImage() {
-		if (isImageWindowActive() == false) {
-			return;
-		}
-		currentImageWindowController.close();
-	}
-
-	private boolean isImageWindowActive() {
-		// TODO ぬるおぶじぇくとでもつかうか
-		return currentImageWindowController != null;
-	}
 }

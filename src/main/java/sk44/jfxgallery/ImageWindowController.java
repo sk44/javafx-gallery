@@ -15,11 +15,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -43,7 +43,7 @@ public class ImageWindowController implements Initializable {
 	private Button buttonPrevious;
 	@FXML
 	private Button buttonNext;
-	private ImageViewPane imageViewPane;
+	private final ImageViewPane imageViewPane = new ImageViewPane();
 	private ImageWindowArgs args;
 	private Pane basePane;
 	private CloseHandler closeHandler;
@@ -58,7 +58,24 @@ public class ImageWindowController implements Initializable {
 		showPrevious();
 	}
 
-	void showPrevious() {
+	@FXML
+	protected void handleKeyPressed(KeyEvent event) {
+		switch (event.getCode()) {
+			case J:
+				showNext();
+				break;
+			case K:
+				showPrevious();
+				break;
+			case ESCAPE:
+				close();
+				break;
+			default:
+				break;
+		}
+	}
+
+	private void showPrevious() {
 		if (args.previousFileExistsProperty().get() == false) {
 			return;
 		}
@@ -66,7 +83,7 @@ public class ImageWindowController implements Initializable {
 		loadImage();
 	}
 
-	void showNext() {
+	private void showNext() {
 		if (args.nextFileExistsProperty().get() == false) {
 			return;
 		}
@@ -75,17 +92,20 @@ public class ImageWindowController implements Initializable {
 	}
 
 	void showOn(Pane basePane, ImageWindowArgs args, CloseHandler closeHandler) {
+
 		this.args = args;
 		this.basePane = basePane;
 		this.closeHandler = closeHandler;
 
 		rootPane.prefHeightProperty().bind(basePane.heightProperty());
 		rootPane.prefWidthProperty().bind(basePane.widthProperty());
-		buttonNext.disableProperty().bind(args.nextFileExistsProperty().not());
-		buttonPrevious.disableProperty().bind(args.previousFileExistsProperty().not());
+		buttonNext.visibleProperty().bind(args.nextFileExistsProperty());
+		buttonPrevious.visibleProperty().bind(args.previousFileExistsProperty());
 
 		loadImage();
 		basePane.getChildren().add(rootPane);
+		// キーボードで親を操作できてしまうので
+		rootPane.requestFocus();
 	}
 
 	void close() {
@@ -95,7 +115,7 @@ public class ImageWindowController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		// なにかすることがあれば
+		rootPane.setCenter(imageViewPane);
 	}
 
 	private void loadImage() {
@@ -113,29 +133,29 @@ public class ImageWindowController implements Initializable {
 			imageView.setSmooth(true);
 			imageView.setCache(true);
 			imageView.setPreserveRatio(true);
-			imageViewPane = new ImageViewPane(imageView);
-			rootPane.setCenter(imageViewPane);
 			imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent t) {
-					System.out.println("mouse clicked.");
 					close();
 				}
 			});
-			playAnimation(imageView);
+			showImage(imageView);
 		} catch (IOException ex) {
 			Logger.getLogger(ImageWindowController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 
-	private void playAnimation(Node node) {
+	private void showImage(ImageView newImage) {
+
+		imageViewPane.setImageView(newImage);
+
 		// TODO みなおす
 		FadeTransition fadeIn = new FadeTransition(Duration.millis(300));
 		fadeIn.setFromValue(0.1);
 		fadeIn.setToValue(1.0);
 		fadeIn.setAutoReverse(true);
 		fadeIn.setCycleCount(1);
-		fadeIn.setNode(node);
+		fadeIn.setNode(newImage);
 		fadeIn.play();
 	}
 }
