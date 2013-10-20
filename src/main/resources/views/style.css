@@ -1,19 +1,72 @@
 .mainFxmlClass {
-
 }
 
-.goButton {
+.button {
+	-fx-background-color: #666666;
+	-fx-text-fill: #ffffff;
+	-fx-background-radius: 0;
 }
+
+.button:hover {
+	-fx-background-color: #999999;
+}
+
+.text-field {
+	-fx-highlight-fill: #999999;
+}
+
+.text-field:focused {
+	-fx-background-color: #999999, -fx-text-box-border, -fx-control-inner-background;
+}
+
+.split-pane-divider {
+	-fx-background-color: #ffffff;
+	-fx-border-color: transparent;
+}
+
+.scroll-bar {
+	-fx-background-color: #ffffff;
+	-fx-border-color: #cccccc;
+}
+
+.increment-button, .decrement-button {
+	-fx-background-color: #ffffff;
+	-fx-background-radius: 0;
+}
+
+.scroll-bar .track {
+	-fx-background-color: #ffffff;
+	-fx-border-color: transparent;
+
+	-fx-background-radius: 0;
+	-fx-border-radius: 0;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color:derive(black,90%);
+	-fx-background-insets: 2, 0, 0;
+	-fx-background-radius: 2em;
+}
+
+/* list pane */
+
+.list-cell:hover, .list-cell:selected {
+	-fx-background-color: #999999;
+	-fx-text-fill: #ffffff;
+}
+
+/* thumbnail pane */
 
 .thumbnail {
 	-fx-background-color: #ffffff;
-	-fx-border-color: #99ccff;
+	-fx-border-color: #999999;
 	-fx-border-width: 1px;
-	-fx-border-radius: 4px;
+	-fx-text-fill: #333333;
 }
 
 .thumbnail:hover, .thumbnail:focused {
-	-fx-background-color: #99ccff;
+	-fx-background-color: #999999;
+	-fx-text-fill: #ffffff;
 }
 
 /* きいてない */
@@ -23,23 +76,30 @@
 	-fx-border-radius: 4px;
 }
 
-.imageTitle {
-	-fx-text-fill: #ffffff;
-	-fx-background-color: #666666;
-	-fx-background-radius: 15px;
-	-fx-padding: 5 10 5 10;
-}
-
-.imageBackground {
+.lightboxBackground {
 	-fx-background-color: rgba(0,0,0,0.5);
 }
 
-.navigation {
-	-fx-background-color: #666666;
-	-fx-text-fill: #ffffff;
-	-fx-font-size: 20px;
+.lightboxForeground {
+	-fx-background-color: #ffffff;
 }
 
-.navigation:hover {
-	-fx-background-color: #999999;
+/* image window */
+
+.imageTitle {
+	-fx-text-fill: #ffffff;
+	/*	-fx-background-color: #666666;
+		-fx-background-radius: 15px;
+		-fx-padding: 5 10 5 10;*/
+}
+
+.navigation {
+	-fx-font-size: 20px;
+	-fx-padding: 20 10 20 10;
+}
+
+/* configure window */
+
+.windowTitle {
+	-fx-font-size: 20px;
 }

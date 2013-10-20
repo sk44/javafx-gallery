@@ -39,7 +39,11 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Callback;
+import sk44.jfxgallery.models.Config;
+import sk44.jfxgallery.models.ImageWindowArgs;
+import sk44.jfxgallery.models.PathModel;
 
 /**
  *
@@ -50,7 +54,6 @@ public class MainWindowController implements Initializable {
 	private final ObservableList<PathModel> directories = FXCollections.observableArrayList();
 	private Path currentPath;
 	private LoadImageTask loadImageTask;
-	private ImageWindowController currentImageWindowController;
 	@FXML
 	private TextField currentPathTextField;
 	@FXML
@@ -60,7 +63,7 @@ public class MainWindowController implements Initializable {
 	@FXML
 	private ListView<PathModel> directoryView;
 	@FXML
-	private AnchorPane mainPane;
+	private AnchorPane rootPane;
 
 	@FXML
 	protected void handleKeyPressedOnList(KeyEvent event) {
@@ -70,14 +73,25 @@ public class MainWindowController implements Initializable {
 	}
 
 	@FXML
+	protected void handleConfigureAction(ActionEvent event) {
+		FXMLLoader loader = new FXMLLoader(getClass()
+			.getResource("/views/configureWindow.fxml"));
+		try {
+			loader.load();
+		} catch (IOException ex) {
+			Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+			return;
+		}
+		ConfigureWindowController window = loader.getController();
+		window.showOn(rootPane);
+	}
+
+	@FXML
 	protected void handleMoveToAction(ActionEvent event) {
 		Path moveTo = new File(currentPathTextField.getText()).toPath();
 		if (Files.exists(moveTo) == false) {
 			System.err.println("moveTo " + moveTo.toString() + " does not exist.");
 			return;
-		}
-		if (currentImageWindowController != null) {
-			currentImageWindowController.close();
 		}
 		moveTo(moveTo);
 	}
@@ -105,12 +119,11 @@ public class MainWindowController implements Initializable {
 				};
 			}
 		});
+		currentPathTextField.prefWidthProperty().bind(rootPane.widthProperty().subtract(180));
 		// flowPane が回りこまなくなるのでバインドしとく
 		thumbnails.prefWidthProperty().bind(flowScrollPane.widthProperty());
 
-		// TODO どっかから読み込めるとよい
-		String home = System.getProperty("user.home");
-		moveTo(new File(home).toPath());
+		moveTo(Config.load().getStartupPath().toPath());
 	}
 
 	private void moveToSelectedDirectory() {
@@ -203,12 +216,9 @@ public class MainWindowController implements Initializable {
 					final Image image = new Image(Files.newInputStream(entry), 120.0, 100.0, true, true);
 					final ImageView imageView = new ImageView(image);
 					imageView.setCache(true);
-					// TODO 意味なさそう
-					if (image.getHeight() > image.getWidth()) {
-						imageView.setFitHeight(100.0);
-					} else {
-						imageView.setFitWidth(120.0);
-					}
+					// TODO 高さが揃わない
+					imageView.setFitHeight(100.0);
+					imageView.setFitWidth(120.0);
 					imageView.setPreserveRatio(true);
 					final String fileName = entry.getFileName().toString();
 
@@ -217,6 +227,7 @@ public class MainWindowController implements Initializable {
 					button.setPrefWidth(130.0);
 					button.setGraphic(imageView);
 					button.setContentDisplay(ContentDisplay.TOP);
+					button.setTextAlignment(TextAlignment.JUSTIFY);
 					button.getStyleClass().add("thumbnail");
 
 					final int current = index;
@@ -276,13 +287,8 @@ public class MainWindowController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass()
 				.getResource("/views/imageWindow.fxml"));
 			loader.load();
-			currentImageWindowController = loader.getController();
-			currentImageWindowController.showOn(mainPane, args, new ImageWindowController.CloseHandler() {
-				@Override
-				public void handleClose() {
-					currentImageWindowController = null;
-				}
-			});
+			ImageWindowController imageWindow = loader.getController();
+			imageWindow.showOn(rootPane, args);
 		} catch (IOException ex) {
 			Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
 		}

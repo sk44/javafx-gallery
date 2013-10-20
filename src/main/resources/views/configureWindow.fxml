@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="rootPane" prefHeight="294.0" prefWidth="565.0" styleClass="mainFxmlClass, lightboxBackground" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sk44.jfxgallery.ConfigureWindowController">
+  <children>
+    <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <BorderPane maxHeight="150.0" prefHeight="150.0" prefWidth="454.0" styleClass="lightboxForeground">
+          <bottom>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="52.0" prefWidth="454.0" BorderPane.alignment="CENTER">
+              <children>
+                <Button mnemonicParsing="false" onAction="#handleSaveAction" text="SAVE">
+                  <HBox.margin>
+                    <Insets right="5.0" fx:id="x1" />
+                  </HBox.margin>
+                </Button>
+                <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#handleCancelAction" text="CANCEL" />
+              </children>
+              <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+              </padding>
+            </HBox>
+          </bottom>
+          <center>
+            <HBox alignment="CENTER" prefHeight="79.0" prefWidth="433.0">
+              <children>
+                <Label text="Startup Path" HBox.margin="$x1" />
+                <TextField fx:id="pathField" prefWidth="305.0" />
+                <Button mnemonicParsing="false" onAction="#handleBrowseAction" text="...">
+                  <HBox.margin>
+                    <Insets left="5.0" />
+                  </HBox.margin>
+                </Button>
+              </children>
+            </HBox>
+          </center>
+          <stylesheets>
+            <URL value="@style.css" />
+          </stylesheets>
+          <top>
+            <HBox alignment="TOP_LEFT" minHeight="22.0" padding="$x2" prefHeight="41.0" prefWidth="454.0">
+              <children>
+                <Label styleClass="windowTitle" text="CONFIGURE" />
+              </children>
+            </HBox>
+          </top>
+        </BorderPane>
+      </children>
+    </HBox>
+  </children>
+  <stylesheets>
+    <URL value="@style.css" />
+  </stylesheets>
+</AnchorPane>

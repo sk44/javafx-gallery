@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package sk44.jfxgallery;
+package sk44.jfxgallery.models;
 
 import java.nio.file.Path;
 import javafx.beans.InvalidationListener;
@@ -16,9 +16,9 @@ import javafx.beans.property.SimpleIntegerProperty;
  *
  * @author sk
  */
-class ImageWindowArgs {
+public class ImageWindowArgs {
 
-	interface IndexToPathFunction {
+	public interface IndexToPathFunction {
 
 		Path pathOfIndex(int index);
 	}

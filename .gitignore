@@ -215,6 +215,8 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
+config.properties
+
 .gradle
 .nb-gradle
 /mtdb

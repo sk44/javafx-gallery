@@ -4,6 +4,8 @@
  */
 package sk44.jfxgallery;
 
+import sk44.jfxgallery.models.ImageWindowArgs;
+import sk44.jfxgallery.views.ImageViewPane;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -31,10 +33,6 @@ import javafx.util.Duration;
  */
 public class ImageWindowController implements Initializable {
 
-	interface CloseHandler {
-
-		void handleClose();
-	}
 	@FXML
 	private BorderPane rootPane;
 	@FXML
@@ -45,8 +43,7 @@ public class ImageWindowController implements Initializable {
 	private Button buttonNext;
 	private final ImageViewPane imageViewPane = new ImageViewPane();
 	private ImageWindowArgs args;
-	private Pane basePane;
-	private CloseHandler closeHandler;
+	private Pane parent;
 
 	@FXML
 	protected void handleNextAction(ActionEvent event) {
@@ -91,26 +88,24 @@ public class ImageWindowController implements Initializable {
 		loadImage();
 	}
 
-	void showOn(Pane basePane, ImageWindowArgs args, CloseHandler closeHandler) {
+	void showOn(Pane parent, ImageWindowArgs args) {
 
 		this.args = args;
-		this.basePane = basePane;
-		this.closeHandler = closeHandler;
+		this.parent = parent;
 
-		rootPane.prefHeightProperty().bind(basePane.heightProperty());
-		rootPane.prefWidthProperty().bind(basePane.widthProperty());
+		rootPane.prefHeightProperty().bind(parent.heightProperty());
+		rootPane.prefWidthProperty().bind(parent.widthProperty());
 		buttonNext.visibleProperty().bind(args.nextFileExistsProperty());
 		buttonPrevious.visibleProperty().bind(args.previousFileExistsProperty());
 
 		loadImage();
-		basePane.getChildren().add(rootPane);
+		parent.getChildren().add(rootPane);
 		// キーボードで親を操作できてしまうので
 		rootPane.requestFocus();
 	}
 
 	void close() {
-		basePane.getChildren().remove(rootPane);
-		closeHandler.handleClose();
+		parent.getChildren().remove(rootPane);
 	}
 
 	@Override

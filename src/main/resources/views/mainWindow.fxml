@@ -8,51 +8,56 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sk44.jfxgallery.MainWindowController">
-  <center>
-    <AnchorPane fx:id="mainPane">
-      <children>
-        <SplitPane dividerPositions="0.2543859649122807" focusTraversable="true" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-          <items>
-            <AnchorPane maxWidth="-1.0" minHeight="0.0" minWidth="150.0" prefHeight="160.0" prefWidth="100.0">
-              <children>
-                <ListView fx:id="directoryView" onKeyPressed="#handleKeyPressedOnList" onMouseClicked="#handleDirectoriesMouseClicked" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-              </children>
-            </AnchorPane>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-              <children>
-                <ScrollPane fx:id="flowScrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                  <content>
-                    <TilePane id="flow" fx:id="thumbnails" hgap="10.0" prefHeight="-1.0" prefWidth="-1.0" vgap="10.0">
-                      <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                      </padding>
-                    </TilePane>
-                  </content>
-                </ScrollPane>
-              </children>
-            </AnchorPane>
-          </items>
-        </SplitPane>
-      </children>
-    </AnchorPane>
-  </center>
-  <stylesheets>
-    <URL value="@style.css" />
-  </stylesheets>
-  <top>
-    <HBox alignment="CENTER_LEFT" minHeight="32.0" prefHeight="32.0" prefWidth="800.0">
-      <children>
-        <TextField fx:id="currentPathTextField" onAction="#handleMoveToAction" prefHeight="20.0" prefWidth="560.0">
-          <HBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
-          </HBox.margin>
-        </TextField>
-        <Button mnemonicParsing="false" onAction="#handleMoveToAction" styleClass="goButton" text="GO" HBox.margin="$x1" />
-      </children>
-      <BorderPane.margin>
-        <Insets />
-      </BorderPane.margin>
-    </HBox>
-  </top>
-</BorderPane>
+<AnchorPane fx:id="rootPane" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sk44.jfxgallery.MainWindowController">
+  <children>
+    <BorderPane prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <center>
+        <AnchorPane fx:id="mainPane" style="&#10;">
+          <children>
+            <SplitPane dividerPositions="0.2543859649122807" focusTraversable="true" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <items>
+                <AnchorPane maxWidth="-1.0" minHeight="0.0" minWidth="150.0" prefHeight="160.0" prefWidth="100.0">
+                  <children>
+                    <ListView fx:id="directoryView" onKeyPressed="#handleKeyPressedOnList" onMouseClicked="#handleDirectoriesMouseClicked" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                  <children>
+                    <ScrollPane fx:id="flowScrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <content>
+                        <TilePane id="flow" fx:id="thumbnails" hgap="10.0" prefHeight="-1.0" prefWidth="-1.0" vgap="10.0">
+                          <padding>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                          </padding>
+                        </TilePane>
+                      </content>
+                    </ScrollPane>
+                  </children>
+                </AnchorPane>
+              </items>
+            </SplitPane>
+          </children>
+        </AnchorPane>
+      </center>
+      <stylesheets>
+        <URL value="@style.css" />
+      </stylesheets>
+      <top>
+        <HBox alignment="CENTER_LEFT" minHeight="32.0" prefHeight="32.0" prefWidth="800.0">
+          <children>
+            <TextField fx:id="currentPathTextField" onAction="#handleMoveToAction" prefHeight="20.0" prefWidth="560.0">
+              <HBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
+              </HBox.margin>
+            </TextField>
+            <Button mnemonicParsing="false" onAction="#handleMoveToAction" text="GO" HBox.margin="$x1" />
+            <Button mnemonicParsing="false" onAction="#handleConfigureAction" text="CONFIGURE" />
+          </children>
+          <BorderPane.margin>
+            <Insets />
+          </BorderPane.margin>
+        </HBox>
+      </top>
+    </BorderPane>
+  </children>
+</AnchorPane>
