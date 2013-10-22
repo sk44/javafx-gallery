@@ -4,8 +4,6 @@
  */
 package sk44.jfxgallery;
 
-import sk44.jfxgallery.models.ImageWindowArgs;
-import sk44.jfxgallery.views.ImageViewPane;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -26,6 +24,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import sk44.jfxgallery.models.ImageWindowArgs;
+import sk44.jfxgallery.views.ImageViewPane;
 
 /**
  *
@@ -34,7 +34,9 @@ import javafx.util.Duration;
 public class ImageWindowController implements Initializable {
 
 	@FXML
-	private BorderPane rootPane;
+	private Pane rootPane;
+	@FXML
+	private BorderPane imageContainer;
 	@FXML
 	private Label imageNameLabel;
 	@FXML
@@ -88,9 +90,9 @@ public class ImageWindowController implements Initializable {
 		loadImage();
 	}
 
-	void showOn(Pane parent, ImageWindowArgs args) {
+	void showOn(Pane parent, ImageWindowArgs param) {
 
-		this.args = args;
+		this.args = param;
 		this.parent = parent;
 
 		rootPane.prefHeightProperty().bind(parent.heightProperty());
@@ -110,7 +112,7 @@ public class ImageWindowController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		rootPane.setCenter(imageViewPane);
+		imageContainer.setCenter(imageViewPane);
 	}
 
 	private void loadImage() {
