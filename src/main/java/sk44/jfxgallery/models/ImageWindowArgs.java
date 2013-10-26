@@ -22,6 +22,10 @@ public class ImageWindowArgs {
 
 		Path pathOfIndex(int index);
 	}
+
+	public static ImageWindowArgs Next(ImageWindowArgs prev) {
+		return new ImageWindowArgs(prev.getNextPath(), prev.currentIndex.get() + 1, prev.indexToPath);
+	}
 	private Path path;
 	private final IntegerProperty currentIndex;
 	private final IndexToPathFunction indexToPath;
@@ -94,18 +98,18 @@ public class ImageWindowArgs {
 
 	public void next() {
 		Path newPath = getNextPath();
-		if (newPath == null) {
-			return;
-		}
+//		if (newPath == null) {
+//			return;
+//		}
 		addIndex(1);
 		path = newPath;
 	}
 
 	public void previous() {
 		Path newPath = getPreviousPath();
-		if (newPath == null) {
-			return;
-		}
+//		if (newPath == null) {
+//			return;
+//		}
 		addIndex(-1);
 		path = newPath;
 	}

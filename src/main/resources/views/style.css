@@ -80,6 +80,10 @@
 	-fx-background-color: rgba(0,0,0,0.5);
 }
 
+.lightboxBackground .split-pane-divider {
+	-fx-background-color: transparent;
+}
+
 .lightboxForeground {
 	-fx-background-color: #ffffff;
 }

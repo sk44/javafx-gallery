@@ -283,11 +283,12 @@ public class MainWindowController implements Initializable {
 	}
 
 	private void openImage(ImageWindowArgs args) {
+		Config config = Config.load();
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass()
-				.getResource("/views/imageWindow.fxml"));
+				.getResource(config.getViewerMode().fxmlPath()));
 			loader.load();
-			ImageWindowController imageWindow = loader.getController();
+			ViewerController imageWindow = loader.getController();
 			imageWindow.showOn(rootPane, args);
 		} catch (IOException ex) {
 			Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);

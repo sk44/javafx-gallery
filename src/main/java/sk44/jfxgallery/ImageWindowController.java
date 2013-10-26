@@ -31,7 +31,7 @@ import sk44.jfxgallery.views.ImageViewPane;
  *
  * @author sk
  */
-public class ImageWindowController implements Initializable {
+public class ImageWindowController implements Initializable, ViewerController {
 
 	@FXML
 	private Pane rootPane;
@@ -90,7 +90,8 @@ public class ImageWindowController implements Initializable {
 		loadImage();
 	}
 
-	void showOn(Pane parent, ImageWindowArgs param) {
+	@Override
+	public void showOn(Pane parent, ImageWindowArgs param) {
 
 		this.args = param;
 		this.parent = parent;

@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 import sk44.jfxgallery.models.Config;
+import sk44.jfxgallery.models.ViewerMode;
 
 /**
  *
@@ -48,7 +49,8 @@ public class ConfigureWindowController implements Initializable {
 		if (path.exists() == false) {
 			return;
 		}
-		Config.update(path);
+		// TODO モードの設定
+		Config.update(path, ViewerMode.SINGLE);
 		close();
 	}
 
