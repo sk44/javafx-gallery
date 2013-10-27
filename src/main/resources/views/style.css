@@ -19,6 +19,20 @@
 	-fx-background-color: #999999, -fx-text-box-border, -fx-control-inner-background;
 }
 
+/* TODO コンボボックスのスタイル */
+.combo-box {
+	-fx-background-radius: 0;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+/* 効かない */
+.combo-box-popup .list-view .list-cell:selected {
+    -fx-background-color: #ff3333;
+}
+
 .split-pane-divider {
 	-fx-background-color: #ffffff;
 	-fx-border-color: transparent;

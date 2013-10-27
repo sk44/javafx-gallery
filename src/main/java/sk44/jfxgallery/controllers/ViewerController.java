@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sk44.jfxgallery;
+package sk44.jfxgallery.controllers;
 
 import javafx.scene.layout.Pane;
 import sk44.jfxgallery.models.ImageWindowArgs;

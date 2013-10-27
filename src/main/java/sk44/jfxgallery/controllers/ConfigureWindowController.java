@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sk44.jfxgallery;
+package sk44.jfxgallery.controllers;
 
 import java.io.File;
 import java.net.URL;
@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
@@ -27,6 +28,8 @@ public class ConfigureWindowController implements Initializable {
 	private Pane rootPane;
 	@FXML
 	private TextField pathField;
+	@FXML
+	private ComboBox<String> viewerModeComboBox;
 	private Pane parent;
 
 	@FXML
@@ -49,8 +52,7 @@ public class ConfigureWindowController implements Initializable {
 		if (path.exists() == false) {
 			return;
 		}
-		// TODO モードの設定
-		Config.update(path, ViewerMode.SINGLE);
+		Config.update(path, ViewerMode.modeOfName(viewerModeComboBox.getSelectionModel().getSelectedItem()));
 		close();
 	}
 
@@ -63,6 +65,9 @@ public class ConfigureWindowController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		Config config = Config.load();
 		pathField.setText(config.getStartupPath().getAbsolutePath());
+		viewerModeComboBox.getItems().clear();
+		viewerModeComboBox.getItems().addAll(ViewerMode.namesOfAllMode());
+		viewerModeComboBox.getSelectionModel().select(config.getViewerMode().getName());
 	}
 
 	void showOn(Pane parent) {
