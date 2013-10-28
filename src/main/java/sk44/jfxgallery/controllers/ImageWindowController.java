@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -43,7 +44,7 @@ public class ImageWindowController implements Initializable, ViewerController {
 	private Button buttonPrevious;
 	@FXML
 	private Button buttonNext;
-	private final ImageViewPane imageViewPane = new ImageViewPane();
+	private final ImageViewPane imageViewPane = new ImageViewPane(HPos.CENTER);
 	private ImageWindowArgs args;
 	private Pane parent;
 
@@ -113,6 +114,7 @@ public class ImageWindowController implements Initializable, ViewerController {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		// AnchorPane.setXxxAnchor すれば AnchorPane でもいいかも
 		imageContainer.setCenter(imageViewPane);
 	}
 

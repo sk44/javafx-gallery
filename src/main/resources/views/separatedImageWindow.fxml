@@ -10,23 +10,15 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane fx:id="rootPane" onKeyPressed="#handleKeyPressed" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sk44.jfxgallery.controllers.SeparatedImageWindowController">
-	<children>
-		<SplitPane dividerPositions="0.5050167224080268" focusTraversable="true" prefHeight="160.0" prefWidth="200.0" styleClass="lightboxBackground" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-			<items>
-				<AnchorPane fx:id="leftContainer" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-					<children>
-						<BorderPane fx:id="leftBorder" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-					</children>
-				</AnchorPane>
-				<AnchorPane fx:id="rightContainer" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-					<children>
-						<BorderPane fx:id="rightBorder" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-					</children>
-				</AnchorPane>
-			</items>
-		</SplitPane>
-	</children>
-	<stylesheets>
-		<URL value="@style.css" />
-	</stylesheets>
+  <children>
+    <SplitPane dividerPositions="0.5050167224080268" focusTraversable="true" prefHeight="160.0" prefWidth="200.0" styleClass="lightboxBackground" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <items>
+        <AnchorPane fx:id="leftContainer" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+        <AnchorPane fx:id="rightContainer" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+      </items>
+    </SplitPane>
+  </children>
+  <stylesheets>
+    <URL value="@style.css" />
+  </stylesheets>
 </AnchorPane>

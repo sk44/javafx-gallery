@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  */
 package sk44.jfxgallery.views;
 
@@ -16,7 +16,9 @@ import javafx.scene.layout.Region;
 /**
  * Resizable image view container.
  *
- * @author sk
+ * @author sakouznetk
+ * @see https://javafx-jira.kenai.com/browse/RT-10610
+ * @see https://javafx-jira.kenai.com/browse/RT-21337
  * @see http://stackoverflow.com/questions/15951284/javafx-image-resizing
  */
 public class ImageViewPane extends Region {
@@ -35,8 +37,10 @@ public class ImageViewPane extends Region {
 		this.imageViewProperty.set(imageView);
 	}
 
-	public ImageViewPane() {
-		this(new ImageView());
+	private final HPos hPos;
+
+	public ImageViewPane(HPos hPos) {
+		this(new ImageView(), hPos);
 	}
 
 	@Override
@@ -45,12 +49,14 @@ public class ImageViewPane extends Region {
 		if (imageView != null) {
 			imageView.setFitWidth(getWidth());
 			imageView.setFitHeight(getHeight());
-			layoutInArea(imageView, 0, 0, getWidth(), getHeight(), 0, HPos.CENTER, VPos.CENTER);
+//			layoutInArea(imageView, 0, 0, getWidth(), getHeight(), 0, HPos.CENTER, VPos.CENTER);
+			layoutInArea(imageView, 0, 0, getWidth(), getHeight(), 0, hPos, VPos.CENTER);
 		}
 		super.layoutChildren();
 	}
 
-	public ImageViewPane(ImageView imageView) {
+	public ImageViewPane(ImageView imageView, HPos hPos) {
+		this.hPos = hPos;
 		imageViewProperty.addListener(new ChangeListener<ImageView>() {
 			@Override
 			public void changed(ObservableValue<? extends ImageView> arg0, ImageView oldIV, ImageView newIV) {

@@ -14,12 +14,12 @@ import java.util.logging.Logger;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import sk44.jfxgallery.models.ImageWindowArgs;
 import sk44.jfxgallery.views.ImageViewPane;
@@ -36,12 +36,8 @@ public class SeparatedImageWindowController implements Initializable, ViewerCont
 	private AnchorPane leftContainer;
 	@FXML
 	private AnchorPane rightContainer;
-	@FXML
-	private BorderPane leftBorder;
-	@FXML
-	private BorderPane rightBorder;
-	private final ImageViewPane leftImageViewPane = new ImageViewPane();
-	private final ImageViewPane rightImageViewPane = new ImageViewPane();
+	private final ImageViewPane leftImageViewPane = new ImageViewPane(HPos.RIGHT);
+	private final ImageViewPane rightImageViewPane = new ImageViewPane(HPos.LEFT);
 	private Pane parent;
 	private ImageWindowArgs leftImages;
 	private ImageWindowArgs rightImages;
@@ -77,7 +73,7 @@ public class SeparatedImageWindowController implements Initializable, ViewerCont
 		}
 		rightImages.next();
 		rightImages.next();
-		loadImageOn(rightImageViewPane, rightImages);
+		loadRightImage();
 
 		leftImages.next();
 		leftImages.next();
@@ -85,7 +81,7 @@ public class SeparatedImageWindowController implements Initializable, ViewerCont
 			leftImageViewPane.setImageView(null);
 			return;
 		}
-		loadImageOn(leftImageViewPane, leftImages);
+		loadLeftImage();
 	}
 
 	private void showNextHalf() {
@@ -93,10 +89,10 @@ public class SeparatedImageWindowController implements Initializable, ViewerCont
 			return;
 		}
 		rightImages.next();
-		loadImageOn(rightImageViewPane, rightImages);
+		loadRightImage();
 
 		leftImages.next();
-		loadImageOn(leftImageViewPane, leftImages);
+		loadLeftImage();
 	}
 
 	private void showPrevious() {
@@ -105,7 +101,7 @@ public class SeparatedImageWindowController implements Initializable, ViewerCont
 		}
 		leftImages.previous();
 		leftImages.previous();
-		loadImageOn(leftImageViewPane, leftImages);
+		loadLeftImage();
 
 		rightImages.previous();
 		rightImages.previous();
@@ -113,7 +109,7 @@ public class SeparatedImageWindowController implements Initializable, ViewerCont
 			rightImageViewPane.setImageView(null);
 			return;
 		}
-		loadImageOn(rightImageViewPane, rightImages);
+		loadRightImage();
 	}
 
 	private void showPreviousHalf() {
@@ -121,10 +117,10 @@ public class SeparatedImageWindowController implements Initializable, ViewerCont
 			return;
 		}
 		leftImages.previous();
-		loadImageOn(leftImageViewPane, leftImages);
+		loadLeftImage();
 
 		rightImages.previous();
-		loadImageOn(rightImageViewPane, rightImages);
+		loadRightImage();
 	}
 
 	@Override
@@ -155,20 +151,31 @@ public class SeparatedImageWindowController implements Initializable, ViewerCont
 		leftContainer.prefWidthProperty().bind(rootPane.widthProperty().multiply(0.5));
 		rightContainer.prefWidthProperty().bind(rootPane.widthProperty().multiply(0.5));
 
-		// TODO 画像が AnchorPane からはみだしてしまう
-//		leftContainer.getChildren().add(leftImageViewPane);
-//		AnchorPane.setRightAnchor(leftImageViewPane, 0.0);
-//		rightContainer.getChildren().add(rightImageViewPane);
-//		AnchorPane.setLeftAnchor(rightImageViewPane, 0.0);
-		leftBorder.setCenter(leftImageViewPane);
-		rightBorder.setCenter(rightImageViewPane);
-//		leftBorder.setRight(leftImageViewPane);
-//		rightBorder.setLeft(rightImageViewPane);
-		loadImageOn(rightImageViewPane, rightImages);
-		loadImageOn(leftImageViewPane, leftImages);
+		AnchorPane.setRightAnchor(leftImageViewPane, 0.0);
+		AnchorPane.setLeftAnchor(leftImageViewPane, 0.0);
+		AnchorPane.setTopAnchor(leftImageViewPane, 0.0);
+		AnchorPane.setBottomAnchor(leftImageViewPane, 0.0);
+		leftContainer.getChildren().add(leftImageViewPane);
+
+		AnchorPane.setRightAnchor(rightImageViewPane, 0.0);
+		AnchorPane.setLeftAnchor(rightImageViewPane, 0.0);
+		AnchorPane.setTopAnchor(rightImageViewPane, 0.0);
+		AnchorPane.setBottomAnchor(rightImageViewPane, 0.0);
+		rightContainer.getChildren().add(rightImageViewPane);
+
+		loadRightImage();
+		loadLeftImage();
 
 		parent.getChildren().add(rootPane);
 		rootPane.requestFocus();
+	}
+
+	private void loadRightImage() {
+		loadImageOn(rightImageViewPane, rightImages);
+	}
+
+	private void loadLeftImage() {
+		loadImageOn(leftImageViewPane, leftImages);
 	}
 
 	private static void loadImageOn(ImageViewPane imageViewPane, ImageWindowArgs images) {
