@@ -1,4 +1,6 @@
 .mainFxmlClass {
+	-fx-accent: #999999;
+	-fx-focus-color: #999999;
 }
 
 .button {
@@ -11,13 +13,13 @@
 	-fx-background-color: #999999;
 }
 
-.text-field {
+/*.text-field {
 	-fx-highlight-fill: #999999;
 }
 
 .text-field:focused {
 	-fx-background-color: #999999, -fx-text-box-border, -fx-control-inner-background;
-}
+}*/
 
 /* TODO コンボボックスのスタイル */
 .combo-box {
@@ -28,9 +30,12 @@
     -fx-background-color: transparent;
 }
 
-/* 効かない */
+/*
+効かない.
+https://forums.oracle.com/message/10482957
+*/
 .combo-box-popup .list-view .list-cell:selected {
-    -fx-background-color: #ff3333;
+    /*-fx-background-color: #ff3333;*/
 }
 
 .split-pane-divider {

@@ -30,7 +30,7 @@
             </HBox>
           </bottom>
           <center>
-            <GridPane prefHeight="57.0" prefWidth="218.0">
+            <GridPane alignment="TOP_LEFT" prefHeight="57.0" prefWidth="218.0">
               <children>
                 <HBox alignment="CENTER_RIGHT" padding="$x1" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                   <children>

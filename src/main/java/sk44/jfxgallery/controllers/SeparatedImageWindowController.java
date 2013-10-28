@@ -50,10 +50,18 @@ public class SeparatedImageWindowController implements Initializable, ViewerCont
 	protected void handleKeyPressed(KeyEvent event) {
 		switch (event.getCode()) {
 			case J:
-				showNext();
+				if (event.isShiftDown()) {
+					showNextHalf();
+				} else {
+					showNext();
+				}
 				break;
 			case K:
-				showPrevious();
+				if (event.isShiftDown()) {
+					showPreviousHalf();
+				} else {
+					showPrevious();
+				}
 				break;
 			case ESCAPE:
 				close();
@@ -64,7 +72,7 @@ public class SeparatedImageWindowController implements Initializable, ViewerCont
 	}
 
 	private void showNext() {
-		if (leftImages.nextFileExistsProperty().get() == false) {
+		if (leftImages.isNextFileExists() == false) {
 			return;
 		}
 		rightImages.next();
@@ -80,8 +88,19 @@ public class SeparatedImageWindowController implements Initializable, ViewerCont
 		loadImageOn(leftImageViewPane, leftImages);
 	}
 
+	private void showNextHalf() {
+		if (leftImages.isNextFileExists() == false) {
+			return;
+		}
+		rightImages.next();
+		loadImageOn(rightImageViewPane, rightImages);
+
+		leftImages.next();
+		loadImageOn(leftImageViewPane, leftImages);
+	}
+
 	private void showPrevious() {
-		if (rightImages.previousFileExistsProperty().get() == false) {
+		if (rightImages.isPreviousFileExists() == false) {
 			return;
 		}
 		leftImages.previous();
@@ -97,17 +116,26 @@ public class SeparatedImageWindowController implements Initializable, ViewerCont
 		loadImageOn(rightImageViewPane, rightImages);
 	}
 
+	private void showPreviousHalf() {
+		if (rightImages.isPreviousFileExists() == false) {
+			return;
+		}
+		leftImages.previous();
+		loadImageOn(leftImageViewPane, leftImages);
+
+		rightImages.previous();
+		loadImageOn(rightImageViewPane, rightImages);
+	}
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		rightImageViewPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 			@Override
 			public void handle(MouseEvent t) {
 				showPrevious();
 			}
 		});
 		leftImageViewPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 			@Override
 			public void handle(MouseEvent t) {
 				showNext();
@@ -134,6 +162,8 @@ public class SeparatedImageWindowController implements Initializable, ViewerCont
 //		AnchorPane.setLeftAnchor(rightImageViewPane, 0.0);
 		leftBorder.setCenter(leftImageViewPane);
 		rightBorder.setCenter(rightImageViewPane);
+//		leftBorder.setRight(leftImageViewPane);
+//		rightBorder.setLeft(rightImageViewPane);
 		loadImageOn(rightImageViewPane, rightImages);
 		loadImageOn(leftImageViewPane, leftImages);
 

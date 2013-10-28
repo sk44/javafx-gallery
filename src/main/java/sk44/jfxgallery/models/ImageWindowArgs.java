@@ -129,6 +129,14 @@ public class ImageWindowArgs {
 		currentIndex.set(current + value);
 	}
 
+	public boolean isNextFileExists() {
+		return nextFileExists.get();
+	}
+
+	public boolean isPreviousFileExists() {
+		return previousFileExistsProperty().get();
+	}
+
 	public ReadOnlyBooleanProperty nextFileExistsProperty() {
 		return nextFileExists;
 	}
