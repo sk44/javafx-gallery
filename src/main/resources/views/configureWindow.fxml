@@ -13,38 +13,49 @@
   <children>
     <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
-        <BorderPane maxHeight="150.0" prefHeight="150.0" prefWidth="454.0" styleClass="lightboxForeground">
+        <BorderPane maxHeight="150.0" prefHeight="150.0" prefWidth="476.0" styleClass="lightboxForeground">
           <bottom>
-            <HBox alignment="BOTTOM_RIGHT" prefHeight="52.0" prefWidth="454.0" BorderPane.alignment="CENTER">
+            <HBox alignment="BOTTOM_RIGHT" padding="$x3" prefHeight="33.0" prefWidth="456.0" BorderPane.alignment="CENTER">
               <children>
-                <Button mnemonicParsing="false" onAction="#handleSaveAction" text="SAVE">
+                <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#handleCancelAction" text="Cancel">
                   <HBox.margin>
                     <Insets right="5.0" fx:id="x1" />
                   </HBox.margin>
                 </Button>
-                <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#handleCancelAction" text="CANCEL" />
+                <Button mnemonicParsing="false" onAction="#handleSaveAction" text="Save">
+                  <HBox.margin>
+                    <Insets fx:id="x3" />
+                  </HBox.margin>
+                </Button>
               </children>
-              <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
-              </padding>
+              <BorderPane.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" />
+              </BorderPane.margin>
             </HBox>
           </bottom>
           <center>
-            <GridPane alignment="TOP_LEFT" prefHeight="57.0" prefWidth="218.0">
+            <GridPane alignment="TOP_LEFT" prefHeight="65.0" prefWidth="446.0">
               <children>
-                <HBox alignment="CENTER_RIGHT" padding="$x1" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                   <children>
                     <Label alignment="CENTER_RIGHT" contentDisplay="TOP" text="Startup Path" textAlignment="RIGHT">
                       <labelFor>
-                        <TextField fx:id="pathField" prefWidth="305.0" />
+                        <TextField fx:id="pathField" prefWidth="300.0" />
                       </labelFor>
                     </Label>
                   </children>
+                  <padding>
+                    <Insets right="5.0" fx:id="x1" />
+                  </padding>
                 </HBox>
                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                   <children>
                     <fx:reference source="pathField" />
-                    <Button mnemonicParsing="false" onAction="#handleBrowseAction" text="..." />
+                    <Button mnemonicParsing="false" onAction="#handleBrowseAction" text="...">
+                      <HBox.margin>
+                        <Insets left="5.0" />
+                      </HBox.margin>
+                    </Button>
                   </children>
                 </HBox>
                 <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="1">
@@ -91,14 +102,20 @@
               </BorderPane.margin>
             </GridPane>
           </center>
+          <padding>
+            <Insets fx:id="x3" />
+          </padding>
           <stylesheets>
             <URL value="@style.css" />
           </stylesheets>
           <top>
-            <HBox alignment="TOP_LEFT" minHeight="22.0" padding="$x2" prefHeight="41.0" prefWidth="454.0">
+            <HBox alignment="CENTER" minHeight="22.0" padding="$x3" prefHeight="23.0" prefWidth="456.0" styleClass="headerBox">
               <children>
-                <Label styleClass="windowTitle" text="CONFIGURE" />
+                <Label styleClass="windowTitle" text="Configure" />
               </children>
+              <BorderPane.margin>
+                <Insets bottom="10.0" />
+              </BorderPane.margin>
             </HBox>
           </top>
         </BorderPane>

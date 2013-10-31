@@ -1,16 +1,28 @@
 .mainFxmlClass {
 	-fx-accent: #999999;
 	-fx-focus-color: #999999;
+	/*-fx-padding: 0;*/
+	-fx-border-color: transparent;
 }
 
 .button {
-	-fx-background-color: #666666;
-	-fx-text-fill: #ffffff;
-	-fx-background-radius: 0;
+	-fx-background-color:
+        rgba(0,0,0,0.08),
+        /*linear-gradient(#b1b1b1, #909090),*/
+        linear-gradient(white 0%, #f3f3f3 50%, #dedede 100%);
+	-fx-border-color: #b1b1b1;
+	-fx-border-radius: 4;
+	-fx-text-fill: #242d35;
 }
 
 .button:hover {
-	-fx-background-color: #999999;
+	/*-fx-background-color: #999999;*/
+}
+
+.button:pressed {
+	-fx-text-fill: #ffffff;
+	-fx-background-color: linear-gradient(#999999 10%, #666666 50%);
+	-fx-border-color: #666666;
 }
 
 /*.text-field {
@@ -23,7 +35,10 @@
 
 /* TODO コンボボックスのスタイル */
 .combo-box {
-	-fx-background-radius: 0;
+	-fx-background-radius: 5,5,4;
+	-fx-background-color: #ffffff;
+	-fx-border-color: #999999;
+	-fx-border-radius: 5;
 }
 
 .combo-box .arrow-button {
@@ -38,14 +53,26 @@ https://forums.oracle.com/message/10482957
     /*-fx-background-color: #ff3333;*/
 }
 
+.scroll-pane {
+	-fx-border-color: #ffffff;
+}
+
 .split-pane-divider {
 	-fx-background-color: #ffffff;
 	-fx-border-color: transparent;
+	-fx-padding: 0;
+}
+
+.split-pane:horizontal > * > .split-pane-divider {
+	-fx-border-color: transparent transparent transparent transparent;
+	-fx-background-color: transparent, transparent;
+	-fx-background-insets: 0, 0 1 0 1;
 }
 
 .scroll-bar {
 	-fx-background-color: #ffffff;
-	-fx-border-color: #cccccc;
+	/*-fx-border-color: #cccccc;*/
+	-fx-border-color: transparent;
 }
 
 .increment-button, .decrement-button {
@@ -62,16 +89,31 @@ https://forums.oracle.com/message/10482957
 }
 
 .scroll-bar .thumb {
-    -fx-background-color:derive(black,90%);
+    -fx-background-color: #bbbbbb;
 	-fx-background-insets: 2, 0, 0;
 	-fx-background-radius: 2em;
 }
 
+.headerBox {
+	-fx-background-color: linear-gradient(white 0%, #f3f3f3 50%, #dedede 100%);
+}
+
 /* list pane */
 
+.list-view {
+	-fx-borer-color: transparent;
+	-fx-padding: 0;
+}
 .list-cell:hover, .list-cell:selected {
-	-fx-background-color: #999999;
 	-fx-text-fill: #ffffff;
+}
+
+.list-cell:hover {
+	-fx-background-color: #cccccc;
+}
+
+.list-cell:selected {
+	-fx-background-color: #999999;
 }
 
 /* thumbnail pane */
@@ -124,8 +166,10 @@ https://forums.oracle.com/message/10482957
 .navigation {
 	-fx-background-color: rgba(0,0,0,0.0);
 	-fx-text-fill: transparent;
-	-fx-font-size: 20px;
-	-fx-padding: 30 10 30 10;
+	-fx-font-size: 19px;
+	-fx-padding: 30 15 30 15;
+	-fx-background-radius: 0;
+	-fx-border-color: transparent;
 }
 
 .navigation:hover {
@@ -136,5 +180,5 @@ https://forums.oracle.com/message/10482957
 /* configure window */
 
 .windowTitle {
-	-fx-font-size: 20px;
+	/*-fx-font-size: 18px;*/
 }
