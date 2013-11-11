@@ -23,7 +23,7 @@ import javafx.scene.layout.Region;
  */
 public class ImageViewPane extends Region {
 
-	private ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<ImageView>();
+	private ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<>();
 
 	public ObjectProperty<ImageView> imageViewProperty() {
 		return imageViewProperty;
@@ -37,7 +37,7 @@ public class ImageViewPane extends Region {
 		this.imageViewProperty.set(imageView);
 	}
 
-	private final HPos hPos;
+	protected final HPos hPos;
 
 	public ImageViewPane(HPos hPos) {
 		this(new ImageView(), hPos);
@@ -70,4 +70,5 @@ public class ImageViewPane extends Region {
 		});
 		this.imageViewProperty.set(imageView);
 	}
+
 }

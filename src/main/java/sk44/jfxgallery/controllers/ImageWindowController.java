@@ -157,5 +157,6 @@ public class ImageWindowController implements Initializable, ViewerController {
 		fadeIn.setCycleCount(1);
 		fadeIn.setNode(newImage);
 		fadeIn.play();
+
 	}
 }

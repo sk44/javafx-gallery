@@ -24,6 +24,11 @@ public class Config {
 	private static final String CONFIG_ENCODING = "UTF-8";
 	private static final String KEY_STARTUP_PATH = "startup.path";
 	private static final String KEY_VIEWER_MODE = "viewer.mode";
+	// TODO
+	private static final String KEY_WINDOW_WIDTH = "windiw.width";
+	private static final String KEY_WINDOW_HEIGHT = "window.height";
+	private static final String KEY_WINDOW_X = "window.x";
+	private static final String KEY_WINDOW_Y = "window.y";
 
 	public static Config load() {
 		Properties props = readFromConfigFile();

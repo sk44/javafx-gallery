@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 
 public class JfxGalleryApplication extends Application {
 
+	private Stage stage;
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -18,6 +20,17 @@ public class JfxGalleryApplication extends Application {
 			.load(getClass().getResource("/views/mainWindow.fxml")));
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Gallery");
+//		primaryStage.setWidth(500);
+//		primaryStage.setHeight(400);
+		stage = primaryStage;
 		primaryStage.show();
 	}
+
+	@Override
+	public void stop() throws Exception {
+		System.out.println("full: " + stage.isFullScreen() + " width: " + stage.getWidth() + " height: " + stage.getHeight());
+		System.out.println("x: " + stage.getX() + " y: " + stage.getY());
+		super.stop();
+	}
+
 }

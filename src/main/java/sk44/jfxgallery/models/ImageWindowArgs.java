@@ -96,6 +96,16 @@ public class ImageWindowArgs {
 		return path != null;
 	}
 
+	public void turnPage() {
+		next();
+		next();
+	}
+
+	public void turnBackPage() {
+		previous();
+		previous();
+	}
+
 	public void next() {
 		Path newPath = getNextPath();
 //		if (newPath == null) {

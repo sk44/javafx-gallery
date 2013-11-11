@@ -15,11 +15,7 @@
 	-fx-text-fill: #242d35;
 }
 
-.button:hover {
-	/*-fx-background-color: #999999;*/
-}
-
-.button:pressed {
+.button:hover, .button:pressed {
 	-fx-text-fill: #ffffff;
 	-fx-background-color: linear-gradient(#999999 10%, #666666 50%);
 	-fx-border-color: #666666;
@@ -175,6 +171,7 @@ https://forums.oracle.com/message/10482957
 .navigation:hover {
 	-fx-text-fill: #ffffff;
 	-fx-background-color: rgba(153,153,153,0.8);
+	-fx-border-color: transparent;
 }
 
 /* configure window */
