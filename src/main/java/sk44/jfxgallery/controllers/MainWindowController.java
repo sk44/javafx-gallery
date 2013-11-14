@@ -44,7 +44,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Callback;
 import sk44.jfxgallery.models.Config;
-import sk44.jfxgallery.models.ImageWindowArgs;
+import sk44.jfxgallery.models.ImagePager;
 import sk44.jfxgallery.models.PathModel;
 
 /**
@@ -286,10 +286,10 @@ public class MainWindowController implements Initializable {
 						@Override
 						public void run() {
 							openImage(
-								new ImageWindowArgs(
+								new ImagePager(
 									entry.toAbsolutePath(),
 									index,
-									new ImageWindowArgs.IndexToPathFunction() {
+									new ImagePager.IndexToPathFunction() {
 										@Override
 										public Path pathOfIndex(int index) {
 											// TODO いろいろつらい
@@ -323,7 +323,7 @@ public class MainWindowController implements Initializable {
 		}
 	}
 
-	private void openImage(ImageWindowArgs args) {
+	private void openImage(ImagePager args) {
 		Config config = Config.load();
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass()

@@ -66,6 +66,7 @@ public enum TurnPageAnimation {
 
 	abstract double getEndAngle();
 
+	// TODO メソッド名が意味わからん
 	abstract boolean isRightToLeft();
 
 }

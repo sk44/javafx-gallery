@@ -6,7 +6,7 @@
 package sk44.jfxgallery.controllers;
 
 import javafx.scene.layout.Pane;
-import sk44.jfxgallery.models.ImageWindowArgs;
+import sk44.jfxgallery.models.ImagePager;
 
 /**
  *
@@ -14,6 +14,6 @@ import sk44.jfxgallery.models.ImageWindowArgs;
  */
 public interface ViewerController {
 
-	void showOn(Pane parent, ImageWindowArgs images);
+	void showOn(Pane parent, ImagePager images);
 
 }

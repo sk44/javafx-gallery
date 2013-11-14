@@ -25,7 +25,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import sk44.jfxgallery.models.ImageWindowArgs;
+import sk44.jfxgallery.models.ImagePager;
 import sk44.jfxgallery.views.ImageViewPane;
 
 /**
@@ -45,7 +45,7 @@ public class ImageWindowController implements Initializable, ViewerController {
 	@FXML
 	private Button buttonNext;
 	private final ImageViewPane imageViewPane = new ImageViewPane(HPos.CENTER);
-	private ImageWindowArgs args;
+	private ImagePager pager;
 	private Pane parent;
 
 	@FXML
@@ -76,31 +76,31 @@ public class ImageWindowController implements Initializable, ViewerController {
 	}
 
 	private void showPrevious() {
-		if (args.previousFileExistsProperty().get() == false) {
+		if (pager.previousFileExistsProperty().get() == false) {
 			return;
 		}
-		args.previous();
+		pager.previous();
 		loadImage();
 	}
 
 	private void showNext() {
-		if (args.nextFileExistsProperty().get() == false) {
+		if (pager.nextFileExistsProperty().get() == false) {
 			return;
 		}
-		args.next();
+		pager.next();
 		loadImage();
 	}
 
 	@Override
-	public void showOn(Pane parent, ImageWindowArgs param) {
+	public void showOn(Pane parent, ImagePager param) {
 
-		this.args = param;
+		this.pager = param;
 		this.parent = parent;
 
 		rootPane.prefHeightProperty().bind(parent.heightProperty());
 		rootPane.prefWidthProperty().bind(parent.widthProperty());
-		buttonNext.visibleProperty().bind(args.nextFileExistsProperty());
-		buttonPrevious.visibleProperty().bind(args.previousFileExistsProperty());
+		buttonNext.visibleProperty().bind(pager.nextFileExistsProperty());
+		buttonPrevious.visibleProperty().bind(pager.previousFileExistsProperty());
 
 		loadImage();
 		parent.getChildren().add(rootPane);
@@ -119,15 +119,15 @@ public class ImageWindowController implements Initializable, ViewerController {
 	}
 
 	private void loadImage() {
-		if (args.isCurrentPathExists() == false) {
+		if (pager.isCurrentPathExists() == false) {
 			System.out.println("current path does not exists.");
 			return;
 		}
 		// TODO バインドする
-		imageNameLabel.setText(args.currentPath().getFileName().toString());
+		imageNameLabel.setText(pager.currentPath().getFileName().toString());
 
 		try {
-			Image image = new Image(Files.newInputStream(args.currentPath()));
+			Image image = new Image(Files.newInputStream(pager.currentPath()));
 			ImageView imageView = new ImageView();
 			imageView.setImage(image);
 			imageView.setSmooth(true);

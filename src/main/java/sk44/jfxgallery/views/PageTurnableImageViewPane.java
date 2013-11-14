@@ -34,7 +34,7 @@ public class PageTurnableImageViewPane extends ImageViewPane {
 		this.animation = animation;
 	}
 
-	public void turnPageFirstHalf(final ImageView next, final TurnPageCallback callback) {
+	public void openPage(final ImageView next, final TurnPageCallback callback) {
 
 		ImageView imageView = getImageView();
 		if (imageView == null) {
@@ -54,7 +54,7 @@ public class PageTurnableImageViewPane extends ImageViewPane {
 		timeline.play();
 	}
 
-	public void turnPageSecondHalf(final ImageView next, final TurnPageCallback callback) {
+	public void closePage(final ImageView next, final TurnPageCallback callback) {
 
 		Timeline timeline = createTimeline(next, animation.isRightToLeft());
 		setImageView(next);
@@ -72,13 +72,13 @@ public class PageTurnableImageViewPane extends ImageViewPane {
 
 	protected Timeline createTimeline(ImageView imageView, boolean turned) {
 		// 第二引数が回転の基軸
-		Rotate rotate = new Rotate(90, animation.getPivotX(getImageView()), 0, 0, new Point3D(0.0, 1.0, 0.0));
+		Rotate rotate = new Rotate(0, animation.getPivotX(getImageView()), 0, 0, new Point3D(0.0, 1.0, 0.0));
 		imageView.getTransforms().add(rotate);
 		return new Timeline(
 			new KeyFrame(Duration.ZERO,
 				new KeyValue(rotate.angleProperty(), turned ? animation.getStartAngle()
 					: animation.getEndAngle())),
-			new KeyFrame(Duration.millis(300),
+			new KeyFrame(Duration.millis(200),
 				new KeyValue(rotate.angleProperty(), turned ? animation.getEndAngle()
 					: animation.getStartAngle()))
 		);

@@ -4,12 +4,18 @@
  */
 package sk44.jfxgallery.views;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 
@@ -23,7 +29,26 @@ import javafx.scene.layout.Region;
  */
 public class ImageViewPane extends Region {
 
-	private ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<>();
+	public static ImageView createImageView(Path imagePath) {
+
+		Image image;
+		try {
+			image = new Image(Files.newInputStream(imagePath));
+		} catch (IOException ex) {
+			Logger.getLogger(ImageViewPane.class.getName()).log(Level.SEVERE, null, ex);
+			return null;
+		}
+		ImageView imageView = new ImageView();
+		imageView.setImage(image);
+		imageView.setSmooth(true);
+		imageView.setCache(true);
+		imageView.setPreserveRatio(true);
+
+		return imageView;
+	}
+
+	private final ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<>();
+	protected final HPos hPos;
 
 	public ObjectProperty<ImageView> imageViewProperty() {
 		return imageViewProperty;
@@ -37,8 +62,6 @@ public class ImageViewPane extends Region {
 		this.imageViewProperty.set(imageView);
 	}
 
-	protected final HPos hPos;
-
 	public ImageViewPane(HPos hPos) {
 		this(new ImageView(), hPos);
 	}
@@ -49,7 +72,6 @@ public class ImageViewPane extends Region {
 		if (imageView != null) {
 			imageView.setFitWidth(getWidth());
 			imageView.setFitHeight(getHeight());
-//			layoutInArea(imageView, 0, 0, getWidth(), getHeight(), 0, HPos.CENTER, VPos.CENTER);
 			layoutInArea(imageView, 0, 0, getWidth(), getHeight(), 0, hPos, VPos.CENTER);
 		}
 		super.layoutChildren();
@@ -69,6 +91,15 @@ public class ImageViewPane extends Region {
 			}
 		});
 		this.imageViewProperty.set(imageView);
+	}
+
+	public void replaceImage(Path imagePath) {
+
+		ImageView imageView = createImageView(imagePath);
+		if (imageView == null) {
+			return;
+		}
+		setImageView(imageView);
 	}
 
 }

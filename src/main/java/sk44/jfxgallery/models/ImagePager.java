@@ -16,15 +16,15 @@ import javafx.beans.property.SimpleIntegerProperty;
  *
  * @author sk
  */
-public class ImageWindowArgs {
+public class ImagePager {
 
 	public interface IndexToPathFunction {
 
 		Path pathOfIndex(int index);
 	}
 
-	public static ImageWindowArgs Next(ImageWindowArgs prev) {
-		return new ImageWindowArgs(prev.getNextPath(), prev.currentIndex.get() + 1, prev.indexToPath);
+	public static ImagePager Next(ImagePager prev) {
+		return new ImagePager(prev.getNextPath(), prev.currentIndex.get() + 1, prev.indexToPath);
 	}
 	private Path path;
 	private final IntegerProperty currentIndex;
@@ -32,7 +32,7 @@ public class ImageWindowArgs {
 	private final ReadOnlyBooleanProperty nextFileExists;
 	private final ReadOnlyBooleanProperty previousFileExists;
 
-	public ImageWindowArgs(Path path, int index, IndexToPathFunction indexToPath) {
+	public ImagePager(Path path, int index, IndexToPathFunction indexToPath) {
 		this.path = path;
 		this.currentIndex = new SimpleIntegerProperty(index);
 		this.indexToPath = indexToPath;
@@ -53,7 +53,7 @@ public class ImageWindowArgs {
 
 			@Override
 			public Object getBean() {
-				return ImageWindowArgs.this;
+				return ImagePager.this;
 			}
 
 			@Override
@@ -78,7 +78,7 @@ public class ImageWindowArgs {
 
 			@Override
 			public Object getBean() {
-				return ImageWindowArgs.this;
+				return ImagePager.this;
 			}
 
 			@Override
