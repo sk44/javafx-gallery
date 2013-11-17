@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import sk44.jfxgallery.models.Config;
 
 public class JfxGalleryApplication extends Application {
 
@@ -20,14 +21,21 @@ public class JfxGalleryApplication extends Application {
 			.load(getClass().getResource("/views/mainWindow.fxml")));
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Gallery");
-//		primaryStage.setWidth(500);
-//		primaryStage.setHeight(400);
+		Config config = Config.load();
+		primaryStage.setWidth(config.getWindowWidth());
+		primaryStage.setHeight(config.getWindowHeight());
+		primaryStage.setFullScreen(config.isFullScreen());
+		primaryStage.setX(config.getWindowX());
+		primaryStage.setY(config.getWindowY());
 		stage = primaryStage;
 		primaryStage.show();
 	}
 
 	@Override
 	public void stop() throws Exception {
+		Config config = Config.load();
+		config.updateWindow(stage.getHeight(), stage.getWidth(),
+			stage.getX(), stage.getY(), stage.isFullScreen());
 		System.out.println("full: " + stage.isFullScreen() + " width: " + stage.getWidth() + " height: " + stage.getHeight());
 		System.out.println("x: " + stage.getX() + " y: " + stage.getY());
 		super.stop();

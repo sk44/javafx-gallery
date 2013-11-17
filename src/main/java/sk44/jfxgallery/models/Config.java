@@ -20,54 +20,85 @@ import java.util.Properties;
  */
 public class Config {
 
+	private static Config INSTANCE;
 	private static final String CONFIG_PATH = "config.properties";
 	private static final String CONFIG_ENCODING = "UTF-8";
 	private static final String KEY_STARTUP_PATH = "startup.path";
 	private static final String KEY_VIEWER_MODE = "viewer.mode";
-	// TODO
-	private static final String KEY_WINDOW_WIDTH = "windiw.width";
+	private static final String KEY_WINDOW_WIDTH = "window.width";
+	private static final double DEFAULT_WINDOW_WIDTH = 800.0;
 	private static final String KEY_WINDOW_HEIGHT = "window.height";
+	private static final double DEFAULT_WINDOW_HEIGHT = 600.0;
 	private static final String KEY_WINDOW_X = "window.x";
+	private static final double DEFAULT_WINDOW_X = 10.0;
 	private static final String KEY_WINDOW_Y = "window.y";
+	private static final double DEFAULT_WINDOW_Y = 30.0;
+	private static final String KEY_WINDOW_FULLSCREEN = "window.fullscreen";
 
 	public static Config load() {
-		Properties props = readFromConfigFile();
+		if (INSTANCE != null) {
+			return INSTANCE;
+		}
+		Properties props = createPropertiesFromConfigFile();
 		if (props == null) {
 			return defaultConfig();
 		}
-		File startupPath = null;
+		Config config = defaultConfig();
 		String path = props.getProperty(KEY_STARTUP_PATH, null);
 		if (path != null) {
 			File file = new File(path);
 			if (file.exists()) {
-				startupPath = file;
+				config.startupPath = file;
 			}
 		}
-		ViewerMode mode = null;
+
 		String modeId = props.getProperty(KEY_VIEWER_MODE, null);
 		if (modeId != null && modeId.length() > 0) {
-			mode = ViewerMode.modeOfId(modeId);
+			config.viewerMode = ViewerMode.modeOfId(modeId);
 		}
-		return new Config(
-			startupPath == null ? defaultStartupPath() : startupPath,
-			mode == null ? ViewerMode.defaultMode() : mode);
+		config.windowHeight = getDoubleProperty(props, KEY_WINDOW_HEIGHT, DEFAULT_WINDOW_HEIGHT);
+		config.windowWidth = getDoubleProperty(props, KEY_WINDOW_WIDTH, DEFAULT_WINDOW_WIDTH);
+		config.windowX = getDoubleProperty(props, KEY_WINDOW_X, DEFAULT_WINDOW_X);
+		config.windowY = getDoubleProperty(props, KEY_WINDOW_Y, DEFAULT_WINDOW_Y);
+		config.fullScreen = getBooleanProperty(props, KEY_WINDOW_FULLSCREEN, false);
+
+		INSTANCE = config;
+		return INSTANCE;
 	}
 
+	private static double getDoubleProperty(Properties props, String key, double defaultValue) {
+		String value = props.getProperty(key, null);
+		if (value == null) {
+			return defaultValue;
+		}
+		try {
+			return Double.parseDouble(value);
+		} catch (NumberFormatException ex) {
+			return defaultValue;
+		}
+	}
+
+	private static boolean getBooleanProperty(Properties props, String key, boolean defaultValue) {
+		String value = props.getProperty(key, null);
+		if (value == null) {
+			return defaultValue;
+		}
+		try {
+			return Boolean.parseBoolean(value);
+		} catch (NumberFormatException ex) {
+			return defaultValue;
+		}
+	}
+
+	// TODO static じゃないくていい
 	public static void update(File startupPath, ViewerMode viewerMode) {
-		Properties props = new Properties();
-		props.put(
-			KEY_STARTUP_PATH,
-			startupPath == null ? "" : startupPath.getAbsolutePath());
-		props.put(KEY_VIEWER_MODE, viewerMode.getId());
-
-		try (OutputStream os = new FileOutputStream(new File(CONFIG_PATH))) {
-			props.store(os, CONFIG_ENCODING);
-		} catch (IOException ex) {
-			throw new RuntimeException(ex.getMessage(), ex);
-		}
+		Config config = load();
+		config.startupPath = startupPath;
+		config.viewerMode = viewerMode;
+		config.save();
 	}
 
-	static Properties readFromConfigFile() {
+	static Properties createPropertiesFromConfigFile() {
 
 		File configFile = new File(CONFIG_PATH);
 		if (configFile.exists() == false) {
@@ -83,7 +114,10 @@ public class Config {
 	}
 
 	static Config defaultConfig() {
-		return new Config(defaultStartupPath(), ViewerMode.defaultMode());
+		Config result = new Config();
+		result.startupPath = defaultStartupPath();
+		result.viewerMode = ViewerMode.defaultMode();
+		return result;
 	}
 
 	private static File defaultStartupPath() {
@@ -91,13 +125,46 @@ public class Config {
 		return new File(home);
 	}
 
-	private Config(File startupPath, ViewerMode viewerMode) {
-		this.startupPath = startupPath;
-		this.viewerMode = viewerMode;
+	private Config() {
 	}
 
-	private final File startupPath;
-	private final ViewerMode viewerMode;
+	private File startupPath;
+	private ViewerMode viewerMode;
+	private double windowWidth = 0.0;
+	private double windowHeight = 0.0;
+	private double windowX = 0.0;
+	private double windowY = 0.0;
+	private boolean fullScreen = false;
+
+	private void save() {
+		Properties props = new Properties();
+		props.put(
+			KEY_STARTUP_PATH,
+			startupPath == null ? "" : startupPath.getAbsolutePath());
+		props.put(KEY_VIEWER_MODE,
+			viewerMode == null ? ViewerMode.defaultMode().getId() : viewerMode.getId());
+		props.put(KEY_WINDOW_FULLSCREEN, String.valueOf(isFullScreen()));
+		props.put(KEY_WINDOW_HEIGHT, String.valueOf(getWindowHeight()));
+		props.put(KEY_WINDOW_WIDTH, String.valueOf(getWindowWidth()));
+		props.put(KEY_WINDOW_X, String.valueOf(getWindowX()));
+		props.put(KEY_WINDOW_Y, String.valueOf(getWindowY()));
+
+		try (OutputStream os = new FileOutputStream(new File(CONFIG_PATH))) {
+			props.store(os, CONFIG_ENCODING);
+		} catch (IOException ex) {
+			throw new RuntimeException(ex.getMessage(), ex);
+		}
+
+	}
+
+	public void updateWindow(double windowHeight, double windowWidth, double windowX, double windowY, boolean fullScreen) {
+		this.windowHeight = windowHeight;
+		this.windowWidth = windowWidth;
+		this.windowX = windowX;
+		this.windowY = windowY;
+		this.fullScreen = fullScreen;
+		save();
+	}
 
 	public File getStartupPath() {
 		return startupPath;
@@ -107,9 +174,28 @@ public class Config {
 		return viewerMode;
 	}
 
-	@Override
-	public String toString() {
-		return "Config{" + "startupPath=" + startupPath + ", viewerMode=" + viewerMode + '}';
+	public double getWindowWidth() {
+		return windowWidth;
 	}
 
+	public double getWindowHeight() {
+		return windowHeight;
+	}
+
+	public boolean isFullScreen() {
+		return fullScreen;
+	}
+
+	public double getWindowX() {
+		return windowX;
+	}
+
+	public double getWindowY() {
+		return windowY;
+	}
+
+	@Override
+	public String toString() {
+		return "Config{" + "startupPath=" + startupPath + ", viewerMode=" + viewerMode + ", windowWidth=" + windowWidth + ", windowHeight=" + windowHeight + ", windowX=" + windowX + ", windowY=" + windowY + ", fullScreen=" + fullScreen + '}';
+	}
 }
