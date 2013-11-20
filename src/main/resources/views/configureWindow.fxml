@@ -13,7 +13,7 @@
   <children>
     <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
-        <BorderPane maxHeight="150.0" prefHeight="150.0" prefWidth="476.0" styleClass="lightboxForeground">
+        <BorderPane maxHeight="185.0" prefHeight="185.0" prefWidth="520.0" styleClass="lightboxForeground">
           <bottom>
             <HBox alignment="BOTTOM_RIGHT" padding="$x3" prefHeight="33.0" prefWidth="456.0" BorderPane.alignment="CENTER">
               <children>
@@ -36,7 +36,7 @@
           <center>
             <GridPane alignment="TOP_LEFT" prefHeight="65.0" prefWidth="446.0">
               <children>
-                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" styleClass="contentLabelContainer" GridPane.columnIndex="0" GridPane.rowIndex="0">
                   <children>
                     <Label alignment="CENTER_RIGHT" contentDisplay="TOP" text="Startup Path" textAlignment="RIGHT">
                       <labelFor>
@@ -48,7 +48,7 @@
                     <Insets right="5.0" fx:id="x1" />
                   </padding>
                 </HBox>
-                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="contentContainer" GridPane.columnIndex="1" GridPane.rowIndex="0">
                   <children>
                     <fx:reference source="pathField" />
                     <Button mnemonicParsing="false" onAction="#handleBrowseAction" text="...">
@@ -58,9 +58,9 @@
                     </Button>
                   </children>
                 </HBox>
-                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="1">
+                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" styleClass="contentLabelContainer" GridPane.columnIndex="0" GridPane.rowIndex="1">
                   <children>
-                    <Label text="Viewr Mode">
+                    <Label text="Viewer Mode">
                       <labelFor>
                         <ChoiceBox fx:id="viewerModeChoiceBox">
                           <items>
@@ -74,8 +74,11 @@
                       </labelFor>
                     </Label>
                   </children>
+                  <GridPane.margin>
+                    <Insets fx:id="x3" />
+                  </GridPane.margin>
                 </HBox>
-                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="contentContainer" GridPane.columnIndex="1" GridPane.rowIndex="1">
                   <children>
                     <ComboBox fx:id="viewerModeComboBox">
                       <items>
@@ -88,12 +91,28 @@
                     </ComboBox>
                   </children>
                 </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0" styleClass="contentLabelContainer" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                  <children>
+                    <Label text="Background Image" />
+                  </children>
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0" styleClass="contentContainer" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <children>
+                    <TextField fx:id="backgroundImageField" prefWidth="300.0" />
+                    <Button mnemonicParsing="false" onAction="#handleBrowseImageFileAction" text="...">
+                      <HBox.margin>
+                        <Insets left="5.0" />
+                      </HBox.margin>
+                    </Button>
+                  </children>
+                </HBox>
               </children>
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="10.0" prefWidth="99.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.0" minWidth="10.0" prefWidth="345.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.0" minWidth="10.0" prefWidth="144.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="366.0" minWidth="10.0" prefWidth="366.0" />
               </columnConstraints>
               <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
@@ -109,10 +128,13 @@
             <URL value="@style.css" />
           </stylesheets>
           <top>
-            <HBox alignment="CENTER" minHeight="22.0" padding="$x3" prefHeight="23.0" prefWidth="456.0" styleClass="headerBox">
+            <HBox alignment="CENTER" minHeight="22.0" prefHeight="23.0" prefWidth="456.0" styleClass="headerBox">
               <children>
                 <Label styleClass="windowTitle" text="Configure" />
               </children>
+              <padding>
+                <Insets fx:id="x3" />
+              </padding>
               <BorderPane.margin>
                 <Insets bottom="10.0" />
               </BorderPane.margin>

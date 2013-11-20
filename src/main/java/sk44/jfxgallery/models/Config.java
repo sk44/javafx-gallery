@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -20,20 +23,26 @@ import java.util.Properties;
  */
 public class Config {
 
+	public interface UpdateHandler {
+
+		void onUpdate();
+	}
+
 	private static Config INSTANCE;
 	private static final String CONFIG_PATH = "config.properties";
 	private static final String CONFIG_ENCODING = "UTF-8";
 	private static final String KEY_STARTUP_PATH = "startup.path";
 	private static final String KEY_VIEWER_MODE = "viewer.mode";
+	private static final String KEY_BACKGROUND_IMAGE = "background.image";
 	private static final String KEY_WINDOW_WIDTH = "window.width";
-	private static final double DEFAULT_WINDOW_WIDTH = 800.0;
 	private static final String KEY_WINDOW_HEIGHT = "window.height";
-	private static final double DEFAULT_WINDOW_HEIGHT = 600.0;
 	private static final String KEY_WINDOW_X = "window.x";
-	private static final double DEFAULT_WINDOW_X = 10.0;
 	private static final String KEY_WINDOW_Y = "window.y";
-	private static final double DEFAULT_WINDOW_Y = 30.0;
 	private static final String KEY_WINDOW_FULLSCREEN = "window.fullscreen";
+	private static final double DEFAULT_WINDOW_WIDTH = 800.0;
+	private static final double DEFAULT_WINDOW_HEIGHT = 600.0;
+	private static final double DEFAULT_WINDOW_X = 10.0;
+	private static final double DEFAULT_WINDOW_Y = 30.0;
 
 	public static Config load() {
 		if (INSTANCE != null) {
@@ -55,6 +64,13 @@ public class Config {
 		String modeId = props.getProperty(KEY_VIEWER_MODE, null);
 		if (modeId != null && modeId.length() > 0) {
 			config.viewerMode = ViewerMode.modeOfId(modeId);
+		}
+		String backgroundImagePath = props.getProperty(KEY_BACKGROUND_IMAGE, null);
+		if (backgroundImagePath != null && backgroundImagePath.length() > 0) {
+			File file = new File(backgroundImagePath);
+			if (file.exists()) {
+				config.backgroundImage = file;
+			}
 		}
 		config.windowHeight = getDoubleProperty(props, KEY_WINDOW_HEIGHT, DEFAULT_WINDOW_HEIGHT);
 		config.windowWidth = getDoubleProperty(props, KEY_WINDOW_WIDTH, DEFAULT_WINDOW_WIDTH);
@@ -91,10 +107,11 @@ public class Config {
 	}
 
 	// TODO static じゃないくていい
-	public static void update(File startupPath, ViewerMode viewerMode) {
+	public static void update(File startupPath, ViewerMode viewerMode, File backgroundImage) {
 		Config config = load();
 		config.startupPath = startupPath;
 		config.viewerMode = viewerMode;
+		config.backgroundImage = backgroundImage;
 		config.save();
 	}
 
@@ -126,10 +143,13 @@ public class Config {
 	}
 
 	private Config() {
+		updateHandlers = new ArrayList<>();
 	}
 
+	private final List<UpdateHandler> updateHandlers;
 	private File startupPath;
 	private ViewerMode viewerMode;
+	private File backgroundImage;
 	private double windowWidth = 0.0;
 	private double windowHeight = 0.0;
 	private double windowX = 0.0;
@@ -140,9 +160,17 @@ public class Config {
 		Properties props = new Properties();
 		props.put(
 			KEY_STARTUP_PATH,
-			startupPath == null ? "" : startupPath.getAbsolutePath());
+			startupPath == null
+			? ""
+			: startupPath.getAbsolutePath());
 		props.put(KEY_VIEWER_MODE,
-			viewerMode == null ? ViewerMode.defaultMode().getId() : viewerMode.getId());
+			viewerMode == null
+			? ViewerMode.defaultMode().getId()
+			: viewerMode.getId());
+		props.put(KEY_BACKGROUND_IMAGE,
+			backgroundImage == null || backgroundImage.length() == 0
+			? ""
+			: backgroundImage.getAbsolutePath());
 		props.put(KEY_WINDOW_FULLSCREEN, String.valueOf(isFullScreen()));
 		props.put(KEY_WINDOW_HEIGHT, String.valueOf(getWindowHeight()));
 		props.put(KEY_WINDOW_WIDTH, String.valueOf(getWindowWidth()));
@@ -153,6 +181,9 @@ public class Config {
 			props.store(os, CONFIG_ENCODING);
 		} catch (IOException ex) {
 			throw new RuntimeException(ex.getMessage(), ex);
+		}
+		for (UpdateHandler handler : updateHandlers) {
+			handler.onUpdate();
 		}
 
 	}
@@ -168,6 +199,13 @@ public class Config {
 
 	public File getStartupPath() {
 		return startupPath;
+	}
+
+	public Path getBackgroundImagePath() {
+		if (backgroundImage == null || backgroundImage.exists() == false) {
+			return null;
+		}
+		return backgroundImage.toPath().toAbsolutePath();
 	}
 
 	public ViewerMode getViewerMode() {
@@ -194,8 +232,8 @@ public class Config {
 		return windowY;
 	}
 
-	@Override
-	public String toString() {
-		return "Config{" + "startupPath=" + startupPath + ", viewerMode=" + viewerMode + ", windowWidth=" + windowWidth + ", windowHeight=" + windowHeight + ", windowX=" + windowX + ", windowY=" + windowY + ", fullScreen=" + fullScreen + '}';
+	public void registerUpdateHandler(UpdateHandler handler) {
+		updateHandlers.add(handler);
 	}
+
 }

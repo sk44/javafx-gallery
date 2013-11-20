@@ -114,15 +114,20 @@ https://forums.oracle.com/message/10482957
 
 /* thumbnail pane */
 
+.backgroundImage {
+	-fx-background-color: rgba(255,255,255,0.5);
+}
+
 .thumbnail {
-	-fx-background-color: #ffffff;
-	-fx-border-color: #999999;
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
 	-fx-border-width: 1px;
 	-fx-text-fill: #333333;
 }
 
 .thumbnail:hover, .thumbnail:focused {
-	-fx-background-color: #999999;
+	-fx-background-color: rgba(153,153,153,0.8);
+	-fx-border-color: transparent;
 	-fx-text-fill: #ffffff;
 }
 
@@ -178,4 +183,13 @@ https://forums.oracle.com/message/10482957
 
 .windowTitle {
 	/*-fx-font-size: 18px;*/
+}
+
+.contentLabelContainer {
+	-fx-alignment: CENTER_RIGHT;
+	-fx-padding: 0 5 0 5;
+}
+
+.contentContainer {
+	-fx-alignment: CENTER_LEFT;
 }

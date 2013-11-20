@@ -66,6 +66,8 @@ public class MainWindowController implements Initializable {
 	@FXML
 	private TextField currentPathTextField;
 	@FXML
+	private ImageView backgroundImageView;
+	@FXML
 	private ScrollPane flowScrollPane;
 	@FXML
 	private TilePane thumbnails;
@@ -112,8 +114,32 @@ public class MainWindowController implements Initializable {
 		}
 	}
 
+	private void loadBackgroundImage() {
+		Path imagePath = Config.load().getBackgroundImagePath();
+		if (imagePath == null) {
+			backgroundImageView.setImage(null);
+			return;
+		}
+		try {
+			Image image = new Image(Files.newInputStream(imagePath));
+			backgroundImageView.setCache(true);
+			backgroundImageView.setFitHeight(image.getHeight());
+			backgroundImageView.setFitWidth(image.getWidth());
+			backgroundImageView.setImage(image);
+		} catch (IOException ex) {
+			Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		loadBackgroundImage();
+		Config.load().registerUpdateHandler(new Config.UpdateHandler() {
+			@Override
+			public void onUpdate() {
+				loadBackgroundImage();
+			}
+		});
 		directoryView.setCellFactory(new Callback<ListView<PathModel>, ListCell<PathModel>>() {
 			@Override
 			public ListCell<PathModel> call(ListView<PathModel> p) {

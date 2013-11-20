@@ -7,6 +7,7 @@ package sk44.jfxgallery.controllers;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import sk44.jfxgallery.models.Config;
 import sk44.jfxgallery.models.ViewerMode;
 
@@ -29,6 +31,8 @@ public class ConfigureWindowController implements Initializable {
 	@FXML
 	private TextField pathField;
 	@FXML
+	private TextField backgroundImageField;
+	@FXML
 	private ComboBox<String> viewerModeComboBox;
 	private Pane parent;
 
@@ -38,6 +42,16 @@ public class ConfigureWindowController implements Initializable {
 		File dir = dc.showDialog(null);
 		if (dir != null) {
 			pathField.setText(dir.getAbsolutePath());
+		}
+	}
+
+	@FXML
+	protected void handleBrowseImageFileAction(ActionEvent event) {
+		FileChooser fc = new FileChooser();
+		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image", "*.jpg", "*.jpeg", "*.png", "*.gif"));
+		File f = fc.showOpenDialog(null);
+		if (f != null) {
+			backgroundImageField.setText(f.getAbsolutePath());
 		}
 	}
 
@@ -52,7 +66,11 @@ public class ConfigureWindowController implements Initializable {
 		if (path.exists() == false) {
 			return;
 		}
-		Config.update(path, ViewerMode.modeOfName(viewerModeComboBox.getSelectionModel().getSelectedItem()));
+		File background = new File(backgroundImageField.getText());
+		Config.update(
+			path,
+			ViewerMode.modeOfName(viewerModeComboBox.getSelectionModel().getSelectedItem()),
+			background);
 		close();
 	}
 
@@ -68,6 +86,10 @@ public class ConfigureWindowController implements Initializable {
 		viewerModeComboBox.getItems().clear();
 		viewerModeComboBox.getItems().addAll(ViewerMode.namesOfAllMode());
 		viewerModeComboBox.getSelectionModel().select(config.getViewerMode().getName());
+		Path imagePath = config.getBackgroundImagePath();
+		if (imagePath != null) {
+			backgroundImageField.setText(imagePath.toString());
+		}
 	}
 
 	void showOn(Pane parent) {

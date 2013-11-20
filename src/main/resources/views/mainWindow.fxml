@@ -6,6 +6,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane fx:id="rootPane" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sk44.jfxgallery.controllers.MainWindowController">
@@ -23,7 +24,8 @@
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                   <children>
-                    <ScrollPane fx:id="flowScrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <ImageView fx:id="backgroundImageView" fitHeight="380.0000905923913" fitWidth="506.66680908203125" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <ScrollPane fx:id="flowScrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" styleClass="backgroundImage" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                       <content>
                         <TilePane id="flow" fx:id="thumbnails" hgap="10.0" prefHeight="-1.0" prefWidth="-1.0" vgap="10.0">
                           <padding>
