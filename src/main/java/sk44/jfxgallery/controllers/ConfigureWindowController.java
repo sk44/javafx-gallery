@@ -35,11 +35,12 @@ public class ConfigureWindowController implements Initializable {
 	@FXML
 	private ComboBox<String> viewerModeComboBox;
 	private Pane parent;
+	private FileChooser fileChooser;
+	private DirectoryChooser directoryChooser;
 
 	@FXML
 	protected void handleBrowseAction(ActionEvent event) {
-		DirectoryChooser dc = new DirectoryChooser();
-		File dir = dc.showDialog(null);
+		File dir = directoryChooser.showDialog(null);
 		if (dir != null) {
 			pathField.setText(dir.getAbsolutePath());
 		}
@@ -47,9 +48,7 @@ public class ConfigureWindowController implements Initializable {
 
 	@FXML
 	protected void handleBrowseImageFileAction(ActionEvent event) {
-		FileChooser fc = new FileChooser();
-		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image", "*.jpg", "*.jpeg", "*.png", "*.gif"));
-		File f = fc.showOpenDialog(null);
+		File f = fileChooser.showOpenDialog(null);
 		if (f != null) {
 			backgroundImageField.setText(f.getAbsolutePath());
 		}
@@ -67,7 +66,7 @@ public class ConfigureWindowController implements Initializable {
 			return;
 		}
 		File background = new File(backgroundImageField.getText());
-		Config.update(
+		Config.load().updateUserSettings(
 			path,
 			ViewerMode.modeOfName(viewerModeComboBox.getSelectionModel().getSelectedItem()),
 			background);
@@ -81,6 +80,10 @@ public class ConfigureWindowController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		directoryChooser = new DirectoryChooser();
+		fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image", "*.jpg", "*.jpeg", "*.png", "*.gif"));
+
 		Config config = Config.load();
 		pathField.setText(config.getStartupPath().getAbsolutePath());
 		viewerModeComboBox.getItems().clear();

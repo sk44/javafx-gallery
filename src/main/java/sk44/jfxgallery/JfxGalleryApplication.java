@@ -34,10 +34,8 @@ public class JfxGalleryApplication extends Application {
 	@Override
 	public void stop() throws Exception {
 		Config config = Config.load();
-		config.updateWindow(stage.getHeight(), stage.getWidth(),
+		config.updateWindowSettings(stage.getHeight(), stage.getWidth(),
 			stage.getX(), stage.getY(), stage.isFullScreen());
-		System.out.println("full: " + stage.isFullScreen() + " width: " + stage.getWidth() + " height: " + stage.getHeight());
-		System.out.println("x: " + stage.getX() + " y: " + stage.getY());
 		super.stop();
 	}
 

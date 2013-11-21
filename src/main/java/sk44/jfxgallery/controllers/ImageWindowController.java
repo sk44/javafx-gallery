@@ -17,14 +17,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import sk44.jfxgallery.models.Config;
 import sk44.jfxgallery.models.ImagePager;
 import sk44.jfxgallery.views.ImageViewPane;
 
@@ -128,14 +132,29 @@ public class ImageWindowController implements Initializable, ViewerController {
 
 		try {
 			Image image = new Image(Files.newInputStream(pager.currentPath()));
-			ImageView imageView = new ImageView();
+			final ImageView imageView = new ImageView();
 			imageView.setImage(image);
 			imageView.setSmooth(true);
 			imageView.setCache(true);
 			imageView.setPreserveRatio(true);
+
+			final ContextMenu popup = new ContextMenu();
+			MenuItem menu = new MenuItem("use as background");
+			menu.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent t) {
+					Config.load().updateBackgroundImage(pager.currentPath());
+				}
+			});
+			popup.getItems().add(menu);
 			imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent t) {
+					if (t.getButton() == MouseButton.SECONDARY) {
+						popup.show(imageView, t.getScreenX(), t.getScreenY());
+						return;
+					}
+					popup.hide();
 					close();
 				}
 			});

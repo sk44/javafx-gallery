@@ -106,15 +106,6 @@ public class Config {
 		}
 	}
 
-	// TODO static じゃないくていい
-	public static void update(File startupPath, ViewerMode viewerMode, File backgroundImage) {
-		Config config = load();
-		config.startupPath = startupPath;
-		config.viewerMode = viewerMode;
-		config.backgroundImage = backgroundImage;
-		config.save();
-	}
-
 	static Properties createPropertiesFromConfigFile() {
 
 		File configFile = new File(CONFIG_PATH);
@@ -188,12 +179,24 @@ public class Config {
 
 	}
 
-	public void updateWindow(double windowHeight, double windowWidth, double windowX, double windowY, boolean fullScreen) {
+	public void updateWindowSettings(double windowHeight, double windowWidth, double windowX, double windowY, boolean fullScreen) {
 		this.windowHeight = windowHeight;
 		this.windowWidth = windowWidth;
 		this.windowX = windowX;
 		this.windowY = windowY;
 		this.fullScreen = fullScreen;
+		save();
+	}
+
+	public void updateUserSettings(File startupPath, ViewerMode viewerMode, File backgroundImage) {
+		this.startupPath = startupPath;
+		this.viewerMode = viewerMode;
+		this.backgroundImage = backgroundImage;
+		save();
+	}
+
+	public void updateBackgroundImage(Path backgroundImagePath) {
+		this.backgroundImage = backgroundImagePath.toFile();
 		save();
 	}
 
