@@ -11,11 +11,12 @@
 
 <AnchorPane fx:id="rootPane" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sk44.jfxgallery.controllers.MainWindowController">
   <children>
+    <ImageView fx:id="backgroundImageView" fitHeight="471.0000913330079" fitWidth="628.0001831054688" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="33.0" />
     <BorderPane prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <center>
         <AnchorPane fx:id="mainPane" style="&#10;">
           <children>
-            <SplitPane dividerPositions="0.2543859649122807" focusTraversable="true" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <SplitPane dividerPositions="0.2543859649122807" focusTraversable="true" prefHeight="160.0" prefWidth="200.0" styleClass="backgroundImage" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
                 <AnchorPane maxWidth="-1.0" minHeight="0.0" minWidth="150.0" prefHeight="160.0" prefWidth="100.0">
                   <children>
@@ -24,8 +25,7 @@
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                   <children>
-                    <ImageView fx:id="backgroundImageView" fitHeight="380.0000905923913" fitWidth="506.66680908203125" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                    <ScrollPane fx:id="flowScrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" styleClass="backgroundImage" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <ScrollPane fx:id="flowScrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                       <content>
                         <TilePane id="flow" fx:id="thumbnails" hgap="10.0" prefHeight="-1.0" prefWidth="-1.0" vgap="10.0">
                           <padding>

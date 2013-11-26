@@ -5,6 +5,10 @@
 	-fx-border-color: transparent;
 }
 
+.backgroundImage {
+	-fx-background-color: rgba(255,255,255,0.5);
+}
+
 .button {
 	-fx-background-color:
         rgba(0,0,0,0.08),
@@ -50,7 +54,9 @@ https://forums.oracle.com/message/10482957
 }
 
 .scroll-pane {
-	-fx-border-color: #ffffff;
+	/*-fx-border-color: #ffffff;*/
+	-fx-border-color: transparent;
+	-fx-background-color: transparent;
 }
 
 .split-pane-divider {
@@ -99,24 +105,35 @@ https://forums.oracle.com/message/10482957
 .list-view {
 	-fx-borer-color: transparent;
 	-fx-padding: 0;
+	-fx-background-color: transparent;
+}
+
+.list-cell {
+	-fx-padding: 0 10 0 10;
+}
+
+.list-cell, .list-cell:empty {
+	-fx-background-color: transparent;
 }
 .list-cell:hover, .list-cell:selected {
 	-fx-text-fill: #ffffff;
 }
 
 .list-cell:hover {
-	-fx-background-color: #cccccc;
+	-fx-background-color: rgba(204,204,204,0.8);
+	-fx-background-radius: 2em;
+}
+
+.list-cell:hover:empty {
+	-fx-background-color: transparent;
 }
 
 .list-cell:selected {
-	-fx-background-color: #999999;
+	-fx-background-color: rgba(153,153,153,0.8);
+	-fx-background-radius: 2em;
 }
 
 /* thumbnail pane */
-
-.backgroundImage {
-	-fx-background-color: rgba(255,255,255,0.5);
-}
 
 .thumbnail {
 	-fx-background-color: transparent;
