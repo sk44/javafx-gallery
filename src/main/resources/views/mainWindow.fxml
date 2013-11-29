@@ -11,7 +11,7 @@
 
 <AnchorPane fx:id="rootPane" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sk44.jfxgallery.controllers.MainWindowController">
   <children>
-    <ImageView fx:id="backgroundImageView" fitHeight="471.0000913330079" fitWidth="628.0001831054688" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="33.0" />
+    <ImageView fx:id="backgroundImageView" fitHeight="510.00009141770084" fitWidth="680.0001831054688" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
     <BorderPane prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <center>
         <AnchorPane fx:id="mainPane" style="&#10;">

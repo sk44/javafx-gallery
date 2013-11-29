@@ -3,6 +3,7 @@
 	-fx-focus-color: #999999;
 	/*-fx-padding: 0;*/
 	-fx-border-color: transparent;
+	-fx-font-family: 'Helvetica', 'Arial';
 }
 
 .backgroundImage {
@@ -72,8 +73,9 @@ https://forums.oracle.com/message/10482957
 }
 
 .scroll-bar {
-	-fx-background-color: #ffffff;
+	/*-fx-background-color: #ffffff;*/
 	/*-fx-border-color: #cccccc;*/
+	-fx-background-color: transparent;
 	-fx-border-color: transparent;
 }
 
@@ -97,7 +99,8 @@ https://forums.oracle.com/message/10482957
 }
 
 .headerBox {
-	-fx-background-color: linear-gradient(white 0%, #f3f3f3 50%, #dedede 100%);
+	/*-fx-background-color: linear-gradient(white 0%, #f3f3f3 50%, #dedede 100%);*/
+	-fx-background-color: transparent;
 }
 
 /* list pane */
