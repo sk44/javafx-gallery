@@ -27,7 +27,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -41,10 +40,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.TextAlignment;
-import javafx.util.Callback;
 import sk44.jfxgallery.models.Config;
 import sk44.jfxgallery.models.ImagePager;
 import sk44.jfxgallery.models.PathModel;
+import sk44.jfxgallery.views.DirectoryViewCellFactory;
 
 /**
  *
@@ -134,20 +133,7 @@ public class MainWindowController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         loadBackgroundImage();
         Config.load().registerUpdateHandler(this::loadBackgroundImage);
-        directoryView.setCellFactory(new Callback<ListView<PathModel>, ListCell<PathModel>>() {
-            @Override
-            public ListCell<PathModel> call(ListView<PathModel> p) {
-                return new ListCell<PathModel>() {
-                    @Override
-                    protected void updateItem(PathModel t, boolean empty) {
-                        super.updateItem(t, empty);
-                        if (empty == false) {
-                            setText(t.getName());
-                        }
-                    }
-                };
-            }
-        });
+        directoryView.setCellFactory(new DirectoryViewCellFactory());
         currentPathTextField.prefWidthProperty().bind(rootPane.widthProperty().subtract(180));
         // flowPane が回りこまなくなるのでバインドしとく
         thumbnails.prefWidthProperty().bind(flowScrollPane.widthProperty());
