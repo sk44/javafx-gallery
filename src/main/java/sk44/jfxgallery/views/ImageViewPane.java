@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -29,77 +28,74 @@ import javafx.scene.layout.Region;
  */
 public class ImageViewPane extends Region {
 
-	public static ImageView createImageView(Path imagePath) {
+    public static ImageView createImageView(Path imagePath) {
 
-		Image image;
-		try {
-			image = new Image(Files.newInputStream(imagePath));
-		} catch (IOException ex) {
-			Logger.getLogger(ImageViewPane.class.getName()).log(Level.SEVERE, null, ex);
-			return null;
-		}
-		ImageView imageView = new ImageView();
-		imageView.setImage(image);
-		imageView.setSmooth(true);
-		imageView.setCache(true);
-		imageView.setPreserveRatio(true);
+        Image image;
+        try {
+            image = new Image(Files.newInputStream(imagePath));
+        } catch (IOException ex) {
+            Logger.getLogger(ImageViewPane.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        imageView.setPreserveRatio(true);
 
-		return imageView;
-	}
+        return imageView;
+    }
 
-	private final ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<>();
-	protected final HPos hPos;
+    private final ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<>();
+    protected final HPos hPos;
 
-	public ObjectProperty<ImageView> imageViewProperty() {
-		return imageViewProperty;
-	}
+    public ObjectProperty<ImageView> imageViewProperty() {
+        return imageViewProperty;
+    }
 
-	public ImageView getImageView() {
-		return imageViewProperty.get();
-	}
+    public ImageView getImageView() {
+        return imageViewProperty.get();
+    }
 
-	public void setImageView(ImageView imageView) {
-		this.imageViewProperty.set(imageView);
-	}
+    public void setImageView(ImageView imageView) {
+        this.imageViewProperty.set(imageView);
+    }
 
-	public ImageViewPane(HPos hPos) {
-		this(new ImageView(), hPos);
-	}
+    public ImageViewPane(HPos hPos) {
+        this(new ImageView(), hPos);
+    }
 
-	@Override
-	protected void layoutChildren() {
-		ImageView imageView = imageViewProperty.get();
-		if (imageView != null) {
-			imageView.setFitWidth(getWidth());
-			imageView.setFitHeight(getHeight());
-			layoutInArea(imageView, 0, 0, getWidth(), getHeight(), 0, hPos, VPos.CENTER);
-		}
-		super.layoutChildren();
-	}
+    @Override
+    protected void layoutChildren() {
+        ImageView imageView = imageViewProperty.get();
+        if (imageView != null) {
+            imageView.setFitWidth(getWidth());
+            imageView.setFitHeight(getHeight());
+            layoutInArea(imageView, 0, 0, getWidth(), getHeight(), 0, hPos, VPos.CENTER);
+        }
+        super.layoutChildren();
+    }
 
-	public ImageViewPane(ImageView imageView, HPos hPos) {
-		this.hPos = hPos;
-		imageViewProperty.addListener(new ChangeListener<ImageView>() {
-			@Override
-			public void changed(ObservableValue<? extends ImageView> arg0, ImageView oldIV, ImageView newIV) {
-				if (oldIV != null) {
-					getChildren().remove(oldIV);
-				}
-				if (newIV != null) {
-					getChildren().add(newIV);
-				}
-			}
-		});
-		this.imageViewProperty.set(imageView);
-	}
+    public ImageViewPane(ImageView imageView, HPos hPos) {
+        this.hPos = hPos;
+        imageViewProperty.addListener((ObservableValue<? extends ImageView> arg0, ImageView oldIV, ImageView newIV) -> {
+            if (oldIV != null) {
+                getChildren().remove(oldIV);
+            }
+            if (newIV != null) {
+                getChildren().add(newIV);
+            }
+        });
+        this.imageViewProperty.set(imageView);
+    }
 
-	public void replaceImage(Path imagePath) {
+    public void replaceImage(Path imagePath) {
 
-		ImageView imageView = createImageView(imagePath);
-		if (imageView == null) {
-			return;
-		}
-		setImageView(imageView);
-	}
+        ImageView imageView = createImageView(imagePath);
+        if (imageView == null) {
+            return;
+        }
+        setImageView(imageView);
+    }
 
 }

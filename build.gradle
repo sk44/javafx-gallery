@@ -3,7 +3,7 @@ apply from: 'javafx.plugin'
 
 defaultTasks 'clean', 'assemble'
 
-sourceCompatibility = '1.7'
+sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 group = 'sk44.jfxgallery'

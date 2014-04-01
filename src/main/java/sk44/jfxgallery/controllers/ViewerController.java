@@ -12,8 +12,9 @@ import sk44.jfxgallery.models.ImagePager;
  *
  * @author sk
  */
+@FunctionalInterface
 public interface ViewerController {
 
-	void showOn(Pane parent, ImagePager images);
+    void showOn(Pane parent, ImagePager images);
 
 }
