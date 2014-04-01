@@ -62,6 +62,10 @@ https://forums.oracle.com/message/10482957
     -fx-background-color: transparent;
 }
 
+.scroll-pane * {
+    -fx-background-color: transparent;
+}
+
 .split-pane-divider {
     -fx-background-color: #ffffff;
     -fx-border-color: transparent;
