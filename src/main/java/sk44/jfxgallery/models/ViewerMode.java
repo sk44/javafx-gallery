@@ -1,12 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk44.jfxgallery.models;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -14,69 +6,45 @@ import java.util.List;
  */
 public enum ViewerMode {
 
-	SINGLE("1", "Single View") {
+    SINGLE("1") {
 
-			@Override
-			public String fxmlPath() {
-				return "/views/imageWindow.fxml";
-			}
+            @Override
+            public String fxmlPath() {
+                return "/views/imageWindow.fxml";
+            }
 
-		},
-	SEPARATE("2", "Separated View") {
+        },
+    SEPARATE("2") {
 
-			@Override
-			public String fxmlPath() {
-				return "/views/separatedImageWindow.fxml";
-			}
+            @Override
+            public String fxmlPath() {
+                return "/views/separatedImageWindow.fxml";
+            }
 
-		};
+        };
 
-	public static ViewerMode defaultMode() {
-		return SINGLE;
-	}
+    public static ViewerMode defaultMode() {
+        return SINGLE;
+    }
 
-	public static List<String> namesOfAllMode() {
-		List<String> results = new ArrayList<>(ViewerMode.values().length);
-		for (ViewerMode mode : ViewerMode.values()) {
-			results.add(mode.getName());
-		}
-		return results;
-	}
+    public static ViewerMode modeOfId(String id) {
+        for (ViewerMode mode : ViewerMode.values()) {
+            if (mode.id.equals(id)) {
+                return mode;
+            }
+        }
+        return null;
+    }
 
-	public static ViewerMode modeOfId(String id) {
-		for (ViewerMode mode : ViewerMode.values()) {
-			if (mode.id.equals(id)) {
-				return mode;
-			}
-		}
-		return null;
-	}
+    private final String id;
 
-	public static ViewerMode modeOfName(String name) {
-		for (ViewerMode mode : ViewerMode.values()) {
-			if (mode.getName().equals(name)) {
-				return mode;
-			}
-		}
-		return null;
-	}
+    private ViewerMode(String id) {
+        this.id = id;
+    }
 
-	private final String id;
-	private final String name;
+    public abstract String fxmlPath();
 
-	private ViewerMode(String id, String name) {
-		this.id = id;
-		this.name = name;
-	}
-
-	public abstract String fxmlPath();
-
-	public String getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
+    public String getId() {
+        return id;
+    }
 }

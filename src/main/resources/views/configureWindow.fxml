@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="rootPane" prefHeight="294.0" prefWidth="565.0" styleClass="mainFxmlClass, lightboxBackground" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="sk44.jfxgallery.controllers.ConfigureWindowController">
+<AnchorPane fx:id="rootPane" prefHeight="294.0" prefWidth="565.0" styleClass="mainFxmlClass, lightboxBackground" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk44.jfxgallery.controllers.ConfigureWindowController">
   <children>
     <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
@@ -80,15 +80,12 @@
                 </HBox>
                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="contentContainer" GridPane.columnIndex="1" GridPane.rowIndex="1">
                   <children>
-                    <ComboBox fx:id="viewerModeComboBox">
-                      <items>
-                        <FXCollections fx:factory="observableArrayList">
-                          <String fx:value="Item 1" />
-                          <String fx:value="Item 2" />
-                          <String fx:value="Item 3" />
-                        </FXCollections>
-                      </items>
-                    </ComboBox>
+                              <RadioButton fx:id="viewerModeSingle" mnemonicParsing="false" text="Single">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="viewerMode" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="viewerModeSeparated" mnemonicParsing="false" text="Separated" toggleGroup="$viewerMode" />
                   </children>
                 </HBox>
                 <HBox prefHeight="100.0" prefWidth="200.0" styleClass="contentLabelContainer" GridPane.columnIndex="0" GridPane.rowIndex="2">
