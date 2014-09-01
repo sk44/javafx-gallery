@@ -3,29 +3,39 @@
     -fx-focus-color: #999999;
     /*-fx-padding: 0;*/
     -fx-border-color: transparent;
-    /*-fx-font-family: 'Helvetica', 'Arial';*/
+    /*-fx-font-family: 'Helvetica-Bold', 'Arial';*/
+    -fx-font: 10pt Futura;
 }
 
 .backgroundImage {
-    -fx-background-color: rgba(255,255,255,0.5);
+    /*-fx-background-color: rgba(255,255,255,0.5);*/
+    -fx-background-color: transparent;
 }
 
 .button {
+    /*
     -fx-background-color:
         rgba(0,0,0,0.08),
-        /*linear-gradient(#b1b1b1, #909090),*/
         linear-gradient(white 0%, #f3f3f3 50%, #dedede 100%);
     -fx-border-color: #b1b1b1;
-    -fx-border-radius: 4;
     -fx-text-fill: #242d35;
+    */
+    -fx-background-color: transparent;
 }
 
 .button:hover, .button:pressed {
     -fx-text-fill: #ffffff;
+    /*
     -fx-background-color: linear-gradient(#999999 10%, #666666 50%);
     -fx-border-color: #666666;
+    */
+    -fx-background-color: rgba(0, 0, 0, 0.4);
 }
 
+*.text-field {
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+    -fx-text-fill: #ffffff;
+}
 /*.text-field {
     -fx-highlight-fill: #999999;
 }
@@ -86,12 +96,14 @@ https://forums.oracle.com/message/10482957
 }
 
 .increment-button, .decrement-button {
-    -fx-background-color: #ffffff;
+    /*-fx-background-color: #ffffff;*/
+    -fx-background-color: transparent;
     -fx-background-radius: 0;
 }
 
 .scroll-bar .track {
-    -fx-background-color: #ffffff;
+    /*-fx-background-color: #ffffff;*/
+    -fx-background-color: transparent;
     -fx-border-color: transparent;
 
     -fx-background-radius: 0;
@@ -99,7 +111,8 @@ https://forums.oracle.com/message/10482957
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: #bbbbbb;
+    /*-fx-background-color: #bbbbbb;*/
+    -fx-background-color: rgba(0,0,0,0.4);
     -fx-background-insets: 2, 0, 0;
     -fx-background-radius: 2em;
 }
@@ -107,6 +120,11 @@ https://forums.oracle.com/message/10482957
 .headerBox {
     /*-fx-background-color: linear-gradient(white 0%, #f3f3f3 50%, #dedede 100%);*/
     -fx-background-color: transparent;
+}
+
+.headerBox .text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
 }
 
 /* list pane */
@@ -119,6 +137,7 @@ https://forums.oracle.com/message/10482957
 
 .list-cell {
     -fx-padding: 0 10 0 10;
+    -fx-text-fill: #ffffff;
 }
 
 .list-cell, .list-cell:empty {
@@ -129,18 +148,24 @@ https://forums.oracle.com/message/10482957
 }
 
 .list-cell:hover {
-    -fx-background-color: rgba(204,204,204,0.8);
-    -fx-background-radius: 2em;
+    -fx-background-color: rgba(0,0,0,0.2);
+}
+
+.list-cell:selected {
+    -fx-background-color: rgba(0,0,0,0.4);
+    /*-fx-background-radius: 2em;*/
 }
 
 .list-cell:hover:empty {
     -fx-background-color: transparent;
 }
 
+/*
 .list-cell:selected {
-    -fx-background-color: rgba(153,153,153,0.8);
-    -fx-background-radius: 2em;
+-fx-background-color: rgba(153,153,153,0.8);
+-fx-background-radius: 2em;
 }
+*/
 
 /* thumbnail pane */
 
@@ -148,19 +173,26 @@ https://forums.oracle.com/message/10482957
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-border-width: 1px;
-    -fx-text-fill: #333333;
+    /*-fx-text-fill: #333333;*/
+    -fx-text-fill: #ffffff;
+}
+
+.list-cell .text,
+.thumbnail .text {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8) , 10, 0, 0, 0);
 }
 
 .thumbnail:hover, .thumbnail:focused {
-    -fx-background-color: rgba(153,153,153,0.8);
+    -fx-background-color: rgba(0,0,0,0.4);
     -fx-border-color: transparent;
     -fx-text-fill: #ffffff;
 }
 
 .filenameTooltip {
-    -fx-background-color: #ff6666;
-    -fx-background-radius: 0 0 0 0;
-    -fx-border-radius: 4px;
+    /*-fx-background-color: #ff6666;*/
+    -fx-background-color: rgba(255,255,255,0);
+    /*-fx-background-radius: 0 0 0 0;*/
+    /*-fx-border-radius: 4px;*/
 }
 
 .lightboxBackground {
