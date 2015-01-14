@@ -7,7 +7,6 @@ package sk44.jfxgallery.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.KeyEvent;
@@ -23,111 +22,105 @@ import sk44.jfxgallery.views.Page;
  */
 public class SeparatedImageWindowController implements Initializable, ViewerController {
 
-	@FXML
-	private AnchorPane rootPane;
-	@FXML
-	private AnchorPane leftContainer;
-	@FXML
-	private AnchorPane rightContainer;
-	private Pane parent;
-	private final Page leftPage = Page.left();
-	private final Page rightPage = Page.right();
+    @FXML
+    private AnchorPane rootPane;
+    @FXML
+    private AnchorPane leftContainer;
+    @FXML
+    private AnchorPane rightContainer;
+    private Pane parent;
+    private final Page leftPage = Page.left();
+    private final Page rightPage = Page.right();
 
-	@FXML
-	protected void handleKeyPressed(KeyEvent event) {
-		switch (event.getCode()) {
-			case J:
-				if (event.isShiftDown()) {
-					showNextHalf();
-				} else {
-					showNext();
-				}
-				break;
-			case K:
-				if (event.isShiftDown()) {
-					showPreviousHalf();
-				} else {
-					showPrevious();
-				}
-				break;
-			case ESCAPE:
-				close();
-				break;
-			default:
-				break;
-		}
-	}
+    @FXML
+    protected void handleKeyPressed(KeyEvent event) {
+        switch (event.getCode()) {
+            case J:
+                if (event.isShiftDown()) {
+                    showNextHalf();
+                } else {
+                    showNext();
+                }
+                break;
+            case K:
+                if (event.isShiftDown()) {
+                    showPreviousHalf();
+                } else {
+                    showPrevious();
+                }
+                break;
+            case ESCAPE:
+                close();
+                break;
+            default:
+                break;
+        }
+    }
 
-	private void showNext() {
-		if (leftPage.isNextFileExists() == false) {
-			return;
-		}
-		leftPage.turnPage(rightPage);
-	}
+    private void showNext() {
+        if (leftPage.isNextFileExists() == false) {
+            return;
+        }
+        leftPage.turnPage(rightPage);
+    }
 
-	private void showNextHalf() {
-		if (leftPage.isNextFileExists() == false) {
-			return;
-		}
-		rightPage.loadNext();
-		leftPage.loadNext();
-	}
+    private void showNextHalf() {
+        if (leftPage.isNextFileExists() == false) {
+            return;
+        }
+        rightPage.loadNext();
+        leftPage.loadNext();
+    }
 
-	private void showPrevious() {
-		if (rightPage.isPreviousFileExists() == false) {
-			return;
-		}
-		rightPage.turnPage(leftPage);
-	}
+    private void showPrevious() {
+        if (rightPage.isPreviousFileExists() == false) {
+            return;
+        }
+        rightPage.turnPage(leftPage);
+    }
 
-	private void showPreviousHalf() {
-		if (rightPage.isPreviousFileExists() == false) {
-			return;
-		}
-		leftPage.loadPrevious();
-		rightPage.loadPrevious();
-	}
+    private void showPreviousHalf() {
+        if (rightPage.isPreviousFileExists() == false) {
+            return;
+        }
+        leftPage.loadPrevious();
+        rightPage.loadPrevious();
+    }
 
-	@Override
-	public void initialize(URL url, ResourceBundle rb) {
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
 
-		leftContainer.prefWidthProperty().bind(rootPane.widthProperty().multiply(0.5));
-		leftPage.fillIn(leftContainer);
-		rightContainer.prefWidthProperty().bind(rootPane.widthProperty().multiply(0.5));
-		rightPage.fillIn(rightContainer);
-		rightPage.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent t) {
-				showPrevious();
-			}
-		});
-		leftPage.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent t) {
-				showNext();
-			}
-		});
-	}
+        leftContainer.prefWidthProperty().bind(rootPane.widthProperty().multiply(0.5));
+        leftPage.fillIn(leftContainer);
+        rightContainer.prefWidthProperty().bind(rootPane.widthProperty().multiply(0.5));
+        rightPage.fillIn(rightContainer);
+        rightPage.setOnMouseClicked((MouseEvent t) -> {
+            showPrevious();
+        });
+        leftPage.setOnMouseClicked((MouseEvent t) -> {
+            showNext();
+        });
+    }
 
-	@Override
-	public void showOn(Pane parent, ImagePager param) {
+    @Override
+    public void showOn(Pane parent, ImagePager param) {
 
-		this.parent = parent;
-		rightPage.setPager(param);
-		leftPage.setPager(ImagePager.Next(param));
+        this.parent = parent;
+        rightPage.setPager(param);
+        leftPage.setPager(ImagePager.Next(param));
 
-		rootPane.prefHeightProperty().bind(parent.heightProperty());
-		rootPane.prefWidthProperty().bind(parent.widthProperty());
+        rootPane.prefHeightProperty().bind(parent.heightProperty());
+        rootPane.prefWidthProperty().bind(parent.widthProperty());
 
-		rightPage.loadImage();
-		leftPage.loadImage();
+        rightPage.loadImage();
+        leftPage.loadImage();
 
-		parent.getChildren().add(rootPane);
-		rootPane.requestFocus();
-	}
+        parent.getChildren().add(rootPane);
+        rootPane.requestFocus();
+    }
 
-	void close() {
-		parent.getChildren().remove(rootPane);
-	}
+    void close() {
+        parent.getChildren().remove(rootPane);
+    }
 
 }

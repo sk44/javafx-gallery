@@ -219,6 +219,8 @@ config.properties
 
 .gradle
 .nb-gradle
+.nb-gradle-properties
 /mtdb
 /debug.keyStore
 /private
+/target/

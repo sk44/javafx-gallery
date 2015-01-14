@@ -21,14 +21,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -42,10 +40,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.TextAlignment;
-import javafx.util.Callback;
 import sk44.jfxgallery.models.Config;
 import sk44.jfxgallery.models.ImagePager;
 import sk44.jfxgallery.models.PathModel;
+import sk44.jfxgallery.views.DirectoryViewCellFactory;
 
 /**
  *
@@ -53,313 +51,317 @@ import sk44.jfxgallery.models.PathModel;
  */
 public class MainWindowController implements Initializable {
 
-	private static final int HISTORY_SIZE = 16;
-	private final LinkedHashMap<String, PathModel> histriesMap = new LinkedHashMap<String, PathModel>(HISTORY_SIZE, 0.75f, false) {
-		@Override
-		protected boolean removeEldestEntry(Map.Entry<String, PathModel> eldest) {
-			return size() > HISTORY_SIZE;
-		}
-	};
-	private final ObservableList<PathModel> directories = FXCollections.observableArrayList();
-	private Path currentPath;
-	private LoadImageTask loadImageTask;
-	@FXML
-	private TextField currentPathTextField;
-	@FXML
-	private ImageView backgroundImageView;
-	@FXML
-	private ScrollPane flowScrollPane;
-	@FXML
-	private TilePane thumbnails;
-	@FXML
-	private ListView<PathModel> directoryView;
-	@FXML
-	private AnchorPane rootPane;
+    private static final int HISTORY_SIZE = 16;
+    private final LinkedHashMap<String, PathModel> histriesMap = new LinkedHashMap<String, PathModel>(HISTORY_SIZE, 0.75f, false) {
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<String, PathModel> eldest) {
+            return size() > HISTORY_SIZE;
+        }
+    };
+    private final ObservableList<PathModel> directories = FXCollections.observableArrayList();
+    private Path currentPath;
+    private LoadImageTask loadImageTask;
+    @FXML
+    private TextField currentPathTextField;
+    @FXML
+    private ImageView backgroundImageView;
+    @FXML
+    private ScrollPane flowScrollPane;
+    @FXML
+    private TilePane thumbnails;
+    @FXML
+    private ListView<PathModel> directoryView;
+    @FXML
+    private AnchorPane rootPane;
 
-	@FXML
-	protected void handleKeyPressedOnList(KeyEvent event) {
-		if (event.getCode() == KeyCode.ENTER) {
-			moveToSelectedDirectory();
-		}
-	}
+    @FXML
+    protected void handleKeyPressedOnList(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            moveToSelectedDirectory();
+        }
+    }
 
-	@FXML
-	protected void handleConfigureAction(ActionEvent event) {
-		FXMLLoader loader = new FXMLLoader(getClass()
-			.getResource("/views/configureWindow.fxml"));
-		try {
-			loader.load();
-		} catch (IOException ex) {
-			Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
-			return;
-		}
-		ConfigureWindowController window = loader.getController();
-		window.showOn(rootPane);
-	}
+    @FXML
+    protected void handleConfigureAction(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass()
+            .getResource("/views/configureWindow.fxml"));
+        try {
+            loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+        ConfigureWindowController window = loader.getController();
+        window.showOn(rootPane);
+    }
 
-	@FXML
-	protected void handleMoveToAction(ActionEvent event) {
-		Path moveTo = new File(currentPathTextField.getText()).toPath();
-		if (Files.exists(moveTo) == false) {
-			System.err.println("moveTo " + moveTo.toString() + " does not exist.");
-			return;
-		}
-		moveTo(moveTo);
-	}
+    @FXML
+    protected void handleMoveToAction(ActionEvent event) {
+        Path moveTo = new File(currentPathTextField.getText()).toPath();
+        if (Files.exists(moveTo) == false) {
+            System.err.println("moveTo " + moveTo.toString() + " does not exist.");
+            return;
+        }
+        moveTo(moveTo);
+    }
 
-	@FXML
-	protected void handleDirectoriesMouseClicked(MouseEvent event) {
-		if (event.getButton().equals(MouseButton.PRIMARY)) {
-			moveToSelectedDirectory();
-		}
-	}
+    @FXML
+    protected void handleDirectoriesMouseClicked(MouseEvent event) {
+        if (event.getButton().equals(MouseButton.PRIMARY)) {
+            moveToSelectedDirectory();
+        }
+    }
 
-	private void loadBackgroundImage() {
-		Path imagePath = Config.load().getBackgroundImagePath();
-		if (imagePath == null) {
-			backgroundImageView.setImage(null);
-			return;
-		}
-		try {
-			Image image = new Image(Files.newInputStream(imagePath));
-			backgroundImageView.setCache(true);
-			backgroundImageView.setFitHeight(image.getHeight());
-			backgroundImageView.setFitWidth(image.getWidth());
-			backgroundImageView.setImage(image);
-		} catch (IOException ex) {
-			Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
-		}
-	}
+    private void loadBackgroundImage() {
+        Path imagePath = Config.load().getBackgroundImagePath();
+        if (imagePath == null) {
+            backgroundImageView.setImage(null);
+            return;
+        }
+        try {
+            Image image = new Image(Files.newInputStream(imagePath));
+            backgroundImageView.setCache(true);
+            backgroundImageView.setFitHeight(image.getHeight());
+            backgroundImageView.setFitWidth(image.getWidth());
+            backgroundImageView.setImage(image);
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-	@Override
-	public void initialize(URL url, ResourceBundle rb) {
-		loadBackgroundImage();
-		Config.load().registerUpdateHandler(new Config.UpdateHandler() {
-			@Override
-			public void onUpdate() {
-				loadBackgroundImage();
-			}
-		});
-		directoryView.setCellFactory(new Callback<ListView<PathModel>, ListCell<PathModel>>() {
-			@Override
-			public ListCell<PathModel> call(ListView<PathModel> p) {
-				return new ListCell<PathModel>() {
-					@Override
-					protected void updateItem(PathModel t, boolean empty) {
-						super.updateItem(t, empty);
-						if (empty == false) {
-							setText(t.getName());
-						}
-					}
-				};
-			}
-		});
-		currentPathTextField.prefWidthProperty().bind(rootPane.widthProperty().subtract(180));
-		// flowPane が回りこまなくなるのでバインドしとく
-		thumbnails.prefWidthProperty().bind(flowScrollPane.widthProperty());
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        loadBackgroundImage();
+        Config.load().registerUpdateHandler(this::loadBackgroundImage);
+        directoryView.setCellFactory(new DirectoryViewCellFactory());
+        currentPathTextField.prefWidthProperty().bind(rootPane.widthProperty().subtract(180));
+        // flowPane が回りこまなくなるのでバインドしとく
+        thumbnails.prefWidthProperty().bind(flowScrollPane.widthProperty());
 
-		moveTo(Config.load().getStartupPath().toPath());
-	}
+        moveTo(Config.load().getStartupPath().toPath());
+    }
 
-	private void addHistory(PathModel item) {
-		histriesMap.put(currentPath.toString(), item);
-	}
+    private void addHistory(PathModel item) {
+        histriesMap.put(currentPath.toString(), item);
+    }
 
-	private PathModel getHistory() {
-		if (histriesMap.containsKey(currentPath.toString()) == false) {
-			return null;
-		}
-		return histriesMap.get(currentPath.toString());
-	}
+    private PathModel getHistory() {
+        if (histriesMap.containsKey(currentPath.toString()) == false) {
+            return null;
+        }
+        return histriesMap.get(currentPath.toString());
+    }
 
-	private void moveToSelectedDirectory() {
-		final PathModel selectedItem = directoryView.getSelectionModel().getSelectedItem();
-		if (selectedItem == null) {
-			return;
-		}
-		addHistory(selectedItem);
-		moveTo(selectedItem.getPath());
-	}
+    private void moveToSelectedDirectory() {
+        final PathModel selectedItem = directoryView.getSelectionModel().getSelectedItem();
+        if (selectedItem == null) {
+            return;
+        }
+        addHistory(selectedItem);
+        moveTo(selectedItem.getPath());
+    }
 
-	private void moveTo(Path path) {
-		currentPath = path.toAbsolutePath().normalize();
-		currentPathTextField.setText(currentPath.toString());
-		directories.clear();
+    private void moveTo(Path path) {
+        currentPath = path.toAbsolutePath().normalize();
+        currentPathTextField.setText(currentPath.toString());
+        directories.clear();
 
-		if (currentPath.getParent() != null) {
-			// 上へ
-			directories.add(PathModel.parentModelForPath(path.getParent()));
-		}
-		try (DirectoryStream<Path> stream = Files.newDirectoryStream(currentPath)) {
-			for (Path entry : stream) {
-				if (Files.isDirectory(entry)) {
-					directories.add(PathModel.modelForPath(entry));
-				}
-			}
-			// TODO sort
-			directoryView.setItems(directories);
-			PathModel select = getHistory();
-			if (select != null) {
-				directoryView.getSelectionModel().select(select);
-				// runLater かまさないと一番下までスクロールしてしまう
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						directoryView.scrollTo(directoryView.getSelectionModel().getSelectedIndex());
-					}
-				});
-			}
-			loadImages();
-		} catch (IOException ex) {
-			throw new RuntimeException(ex);
-		}
-	}
+        if (currentPath.getParent() != null) {
+            // 上へ
+            directories.add(PathModel.parentModelForPath(path.getParent()));
+        }
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(currentPath)) {
+            for (Path entry : stream) {
+                if (Files.isDirectory(entry)) {
+                    directories.add(PathModel.modelForPath(entry));
+                }
+            }
+            // TODO sort
+            directoryView.setItems(directories);
+            PathModel select = getHistory();
+            if (select != null) {
+                directoryView.getSelectionModel().select(select);
+                // runLater かまさないと一番下までスクロールしてしまう
+                Platform.runLater(() -> {
+                    directoryView.scrollTo(directoryView.getSelectionModel().getSelectedIndex());
+                });
+            }
+            loadImages();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 
-	private void loadImages() {
-		// 画像ロード中に移動する場合、いったんキャンセル
-		if (loadImageTask != null && loadImageTask.isDone() == false) {
-			System.out.println("task will cancel.");
-			loadImageTask.onCancelled = new Runnable() {
-				@Override
-				public void run() {
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							startLoadImages();
-						}
-					});
-				}
-			};
-			loadImageTask.cancel();
-			loadImageTask = null;
-			System.out.println("task cancel completed.");
-			return;
-		}
-		startLoadImages();
-	}
+    private void loadImages() {
+        // 画像ロード中に移動する場合、いったんキャンセル
+        if (loadImageTask != null && loadImageTask.isDone() == false) {
+            System.out.println("task will cancel.");
+            loadImageTask.onCancelled = () -> {
+                Platform.runLater(this::startLoadImages);
+            };
+            loadImageTask.cancel();
+            loadImageTask = null;
+            System.out.println("task cancel completed.");
+            return;
+        }
+        startLoadImages();
+    }
 
-	private void startLoadImages() {
+    private void startLoadImages() {
 
-		thumbnails.getChildren().clear();
-		// ファイルが大量にある場合遅いので別スレッドで読み込み.
-		loadImageTask = new LoadImageTask();
-		Thread t = new Thread(loadImageTask);
-		t.setDaemon(true);
-		t.start();
-	}
+        thumbnails.getChildren().clear();
+        // ファイルが大量にある場合遅いので別スレッドで読み込み.
+        loadImageTask = new LoadImageTask();
+        Thread t = new Thread(loadImageTask);
+        t.setDaemon(true);
+        t.start();
+    }
 
-	class LoadImageTask extends Task<Void> {
+    private enum DirectoryFilter implements DirectoryStream.Filter<Path> {
 
-		Runnable onCancelled;
+        INSTANCE {
 
-		@Override
-		protected Void call() throws Exception {
+                @Override
+                public boolean accept(Path entry) throws IOException {
+                    // こんな実装、というか処理標準でありそうな気がするが・・・
+                    return Files.isDirectory(entry);
+                }
 
-			try (DirectoryStream<Path> stream = Files
-				.newDirectoryStream(currentPath, "*.{jpg,jpeg,png,gif}")) {
+            };
+    }
 
-				int index = 0;
-				for (final Path entry : stream) {
-					if (isCancelled()) {
-						System.out.println("task cancelled.");
-						if (onCancelled != null) {
-							onCancelled.run();
-						}
-						break;
-					}
-					if (Files.isDirectory(entry)) {
-						continue;
-					}
-					loadImage(entry, index);
-					index++;
-				}
-			} catch (IOException ex) {
-				Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
-			}
+    class LoadImageTask extends Task<Void> {
 
-			return null;
-		}
+        Runnable onCancelled;
+        int thumbnailStartIndex;
 
-		private ImageView createImageView(Path entry) throws IOException {
-			final Image image = new Image(Files.newInputStream(entry), 120.0, 100.0, true, true);
-			final ImageView imageView = new ImageView(image);
-			imageView.setCache(true);
-			// TODO 高さが揃わない
-			imageView.setFitHeight(100.0);
-			imageView.setFitWidth(120.0);
-			imageView.setPreserveRatio(true);
+        @Override
+        protected Void call() throws Exception {
 
-			return imageView;
-		}
+            // ディレクトリ -> 画像の順で表示したいので、別々に読み込む
+            // TODO キャンセル処理が被っている
+            int index = 0;
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(currentPath, DirectoryFilter.INSTANCE)) {
+                for (final Path entry : stream) {
+                    if (isCancelled()) {
+                        if (onCancelled != null) {
+                            onCancelled.run();
+                        }
+                        return null;
+                    }
+                    createDirectoryContent(entry);
+                    index++;
+                }
+            }
+            thumbnailStartIndex = index;
+            try (DirectoryStream<Path> stream = Files
+                .newDirectoryStream(currentPath, "*.{jpg,jpeg,png,gif}")) {
 
-		private void loadImage(final Path entry, final int index) throws IOException {
+                for (final Path entry : stream) {
+                    if (isCancelled()) {
+                        System.out.println("task cancelled.");
+                        if (onCancelled != null) {
+                            onCancelled.run();
+                        }
+                        return null;
+                    }
+                    createImageThumbnail(entry, index);
+                    index++;
+                }
+            }
 
-			final ImageView imageView = createImageView(entry);
-			final String fileName = entry.getFileName().toString();
+            return null;
+        }
 
-			final Button button = new Button(fileName);
-			button.setPrefHeight(110.0);
-			button.setPrefWidth(130.0);
-			button.setGraphic(imageView);
-			button.setContentDisplay(ContentDisplay.TOP);
-			button.setTextAlignment(TextAlignment.JUSTIFY);
-			button.getStyleClass().add("thumbnail");
+        private ImageView createImageView(Path entry) throws IOException {
+            final Image image = new Image(Files.newInputStream(entry), 120.0, 100.0, true, true);
+            final ImageView imageView = new ImageView(image);
+            imageView.setCache(true);
+            // TODO 高さが揃わない
+            imageView.setFitHeight(100.0);
+            imageView.setFitWidth(120.0);
+            imageView.setPreserveRatio(true);
 
-			button.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent t) {
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							openImage(
-								new ImagePager(
-									entry.toAbsolutePath(),
-									index,
-									new ImagePager.IndexToPathFunction() {
-										@Override
-										public Path pathOfIndex(int index) {
-											// TODO いろいろつらい
-											List<Node> labels = thumbnails.getChildren();
-											if (index < 0 || labels.size() - 1 < index) {
-												return null;
-											}
-											Button l = (Button) labels.get(index);
-											return new File(currentPath.toFile(),
-												l.getText()).toPath();
-										}
-									}));
-						}
-					});
-				}
-			});
+            return imageView;
+        }
 
-			Platform.runLater(
-				new Runnable() {
-					@Override
-					public void run() {
-						// new Tooltip はメインスレッドで動かす必要があるっぽい
-						// http://stackoverflow.com/questions/13864182/create-new-tooltip-on-not-javafx-application-thread
-						final Tooltip tooltip = new Tooltip(fileName);
-						tooltip.getStyleClass().add("filenameTooltip");
-						button.setTooltip(tooltip);
-						button.setGraphic(imageView);
-						thumbnails.getChildren().add(button);
-					}
-				});
-		}
-	}
+        private void createDirectoryContent(Path dir) {
+            // TODO コピペ
+            final String fileName = dir.getFileName().toString();
 
-	private void openImage(ImagePager args) {
-		Config config = Config.load();
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass()
-				.getResource(config.getViewerMode().fxmlPath()));
-			loader.load();
-			ViewerController imageWindow = loader.getController();
-			imageWindow.showOn(rootPane, args);
-		} catch (IOException ex) {
-			Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-		}
-	}
+            final Button button = new Button(fileName);
+            button.setPrefHeight(110.0);
+            button.setPrefWidth(130.0);
+//            button.setGraphic(imageView);
+//            button.setContentDisplay(ContentDisplay.TOP);
+            button.setTextAlignment(TextAlignment.JUSTIFY);
+            button.getStyleClass().add("directory");
+
+            button.setOnAction(e -> {
+                moveTo(dir);
+            });
+            Platform.runLater(() -> {
+                thumbnails.getChildren().add(button);
+            });
+
+        }
+
+        private void createImageThumbnail(final Path entry, final int index) throws IOException {
+
+            final ImageView imageView = createImageView(entry);
+            final String fileName = entry.getFileName().toString();
+
+            final Button button = new Button(fileName);
+            button.setPrefHeight(110.0);
+            button.setPrefWidth(130.0);
+            button.setGraphic(imageView);
+            button.setContentDisplay(ContentDisplay.TOP);
+            button.setTextAlignment(TextAlignment.JUSTIFY);
+            button.getStyleClass().add("thumbnail");
+
+            button.setOnAction((ActionEvent t) -> {
+                Platform.runLater(() -> {
+                    openImage(
+                        new ImagePager(
+                            entry.toAbsolutePath(),
+                            index,
+                            (int nextIndex) -> {
+                                if (thumbnailStartIndex > nextIndex) {
+                                    return null;
+                                }
+                                List<Node> labels = thumbnails.getChildren();
+                                if (nextIndex < 0 || labels.size() - 1 < nextIndex) {
+                                    return null;
+                                }
+                                Button l = (Button) labels.get(nextIndex);
+                                return new File(currentPath.toFile(),
+                                    l.getText()).toPath();
+                            }));
+                });
+            });
+
+            Platform.runLater(
+                () -> {
+                    final Tooltip tooltip = new Tooltip(fileName);
+                    tooltip.getStyleClass().add("filenameTooltip");
+                    button.setTooltip(tooltip);
+                    button.setGraphic(imageView);
+                    thumbnails.getChildren().add(button);
+                });
+        }
+    }
+
+    private void openImage(ImagePager args) {
+        Config config = Config.load();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource(config.getViewerMode().fxmlPath()));
+            loader.load();
+            ViewerController imageWindow = loader.getController();
+            imageWindow.showOn(rootPane, args);
+        } catch (IOException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }
