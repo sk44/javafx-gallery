@@ -12,6 +12,19 @@
     -fx-background-color: transparent;
 }
 
+.header {
+    -fx-background-color: rgba(0,0,0,0);
+}
+
+.header .button {
+    -fx-text-fill: #ffffff;
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+}
+
+.header .button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.4);
+}
+
 .button {
     /*
     -fx-background-color:
@@ -25,10 +38,6 @@
 
 .button:hover, .button:pressed {
     -fx-text-fill: #ffffff;
-    /*
-    -fx-background-color: linear-gradient(#999999 10%, #666666 50%);
-    -fx-border-color: #666666;
-    */
     -fx-background-color: rgba(0, 0, 0, 0.4);
 }
 
@@ -170,7 +179,7 @@ https://forums.oracle.com/message/10482957
 /* thumbnail pane */
 
 .directory {
-    -fx-background-color: rgba(0, 0, 0, 0.2);
+    -fx-background-color: rgba(0, 0, 0, 0.4);
     -fx-text-fill: #ffffff;
 }
 
@@ -189,9 +198,9 @@ https://forums.oracle.com/message/10482957
 
 .directory:hover,
 .thumbnail:hover, .thumbnail:focused {
-    -fx-background-color: rgba(0,0,0,0.4);
+    -fx-background-color: rgba(255,255,255,0.4);
     -fx-border-color: transparent;
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #000000;
 }
 
 .filenameTooltip {

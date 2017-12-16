@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk44.jfxgallery.models;
 
 import java.io.File;
@@ -153,12 +148,12 @@ public class Config {
         props.put(
             KEY_STARTUP_PATH,
             startupPath == null
-            ? ""
-            : startupPath.getAbsolutePath());
+                ? ""
+                : startupPath.getAbsolutePath());
         props.put(KEY_VIEWER_MODE,
             viewerMode == null
-            ? ViewerMode.defaultMode().getId()
-            : viewerMode.getId());
+                ? ViewerMode.defaultMode().getId()
+                : viewerMode.getId());
         props.put(KEY_BACKGROUND_IMAGE,
             backgroundImage == null || backgroundImage.length() == 0
             ? ""

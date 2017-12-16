@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk44.jfxgallery.controllers;
 
 import java.io.File;
@@ -112,17 +108,32 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    private void initBackgroundImageView() {
+        backgroundImageView.setSmooth(true);
+        backgroundImageView.setCache(true);
+        backgroundImageView.setPreserveRatio(true);
+        // 横幅が足りないことが多いので横幅だけにバインドする
+//        backgroundImageView.fitHeightProperty().bind(rootPane.heightProperty());
+        backgroundImageView.fitWidthProperty().bind(rootPane.widthProperty());
+    }
+
     private void loadBackgroundImage() {
-        Path imagePath = Config.load().getBackgroundImagePath();
+        Config config = Config.load();
+        Path imagePath = config.getBackgroundImagePath();
         if (imagePath == null) {
             backgroundImageView.setImage(null);
             return;
         }
         try {
-            Image image = new Image(Files.newInputStream(imagePath));
-            backgroundImageView.setCache(true);
-            backgroundImageView.setFitHeight(image.getHeight());
-            backgroundImageView.setFitWidth(image.getWidth());
+            double width = rootPane.getWidth();//.getPrefWidth();
+            double height = rootPane.getHeight();//.getPrefHeight();
+//            double width = config.getWindowWidth();
+//            double height = config.getWindowHeight();
+            Image image = new Image(Files.newInputStream(imagePath), width, height, true, true);
+//            Image image = new Image(Files.newInputStream(imagePath), 1000, 1000, true, true);
+//            backgroundImageView.setCache(true);
+//            backgroundImageView.setFitHeight(image.getHeight());
+//            backgroundImageView.setFitWidth(image.getWidth());
             backgroundImageView.setImage(image);
         } catch (IOException ex) {
             Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,6 +142,7 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        initBackgroundImageView();
         loadBackgroundImage();
         Config.load().registerUpdateHandler(this::loadBackgroundImage);
         directoryView.setCellFactory(new DirectoryViewCellFactory());
@@ -221,13 +233,13 @@ public class MainWindowController implements Initializable {
 
         INSTANCE {
 
-                @Override
-                public boolean accept(Path entry) throws IOException {
-                    // こんな実装、というか処理標準でありそうな気がするが・・・
-                    return Files.isDirectory(entry);
-                }
+            @Override
+            public boolean accept(Path entry) throws IOException {
+                // こんな実装、というか処理標準でありそうな気がするが・・・
+                return Files.isDirectory(entry);
+            }
 
-            };
+        };
     }
 
     class LoadImageTask extends Task<Void> {
